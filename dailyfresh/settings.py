@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'dailyfresh.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dj18',
+        'NAME': 'dailyfresh',
         'HOST': '10.10.21.29',  # 可远程
         'PORT': 3306,
         'USER': 'huxf',
