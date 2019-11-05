@@ -12,10 +12,11 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))  # 加在第0个位置
+# BASE_DIR = '/home/huxf/Dj18/dailyfresh'  # 项目的绝对路径
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -27,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -37,10 +37,16 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.goods',
-    'apps.cart',
-    'apps.order',
-    'apps.user',
+    # 'apps.goods',
+    # 'apps.cart',
+    # 'apps.order',
+    # 'apps.user',
+    'tinymce',  # 富文本编辑器
+    'user',  # 用户模块
+    'goods',  # 商品模块
+    'cart',  # 购物车模块
+    'order',  # 订单模块
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -59,7 +65,7 @@ ROOT_URLCONF = 'dailyfresh.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,7 +80,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'dailyfresh.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
@@ -82,20 +87,23 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dj18',
-        'HOST': '10.10.21.29',
+        'HOST': '10.10.21.29',  # 可远程
         'PORT': 3306,
         'USER': 'huxf',
         'PASSWORD': 'Root1'
     }
 }
 
+# 指定 Django认证系统使用的模型类
+AUTH_USER_MODEL = 'user.User'  # 如果不指定,django会使用默认的模型类
+# 指定后,不再生成auth_user的表,而是生成我们对应的user的表
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -103,8 +111,15 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # 静态文件,目录
+
+TINYMCE_DEFAULT_CONFIG = {
+    # 富文本编辑器配置
+    'theme': 'advanced',
+    'height': '600',
+    'width': '400',
+}

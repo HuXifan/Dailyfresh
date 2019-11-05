@@ -18,5 +18,10 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^user/', include('apps.user.urls')),
+    url(r'^tinymce/', include('tinymce.urls')),  # 富文本编辑器
+    # 指定动态生成路径,页面使用方向解析 namespace
+    url(r'^user/', include('user.urls', namespace='user')),  # 用户模块
+    url(r'^cart/', include('cart.urls', namespace='cart')),  # 购物车模块
+    url(r'^order/', include('order.urls', namespace='order')),  # 订单模块
+    url(r'^', include('goods.urls')),  # 商品模块,直接匹配一个开头放到最后
 ]
