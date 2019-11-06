@@ -21,6 +21,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))  # 加在第0个位置
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# django内部的秘钥
 SECRET_KEY = '5u4*w&yyy!q-!zcnij8ss=fot0uz&6x)evb5y+0gth6skmd#3b'
 
 # SECURITY WARNING: don't run with debug turned on in production!

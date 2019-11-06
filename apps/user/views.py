@@ -1,9 +1,13 @@
 import re
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 # from django.urls import reverse
 from django.core.urlresolvers import reverse
 from django.views.generic import View
 from user.models import User
+from django.conf import settings
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer  # 帮助实现加密
+from itsdangerous import SignatureExpired  # 异常
 
 
 # Create your views here.
@@ -56,6 +60,8 @@ def register(request):
         user.is_active = 0  # 设置没有激活
         user.save()  # 保存
 
+        # 发送激活邮件 包含激活链接:激活链接中需要包含用户身份信息:用户名或者ID /user/active
+        # http://127.0.0.1:8000/user/active/id   需要被身份信息进行加密
         # 返回应答,跳转首页,使用反向解析函数
         return redirect(reverse('goods:index'))
 
@@ -158,6 +164,16 @@ class RegisterView(View):
         user.is_active = 0  # 设置没有激活
         user.save()  # 保存
 
+        # 发送激活邮件 包含激活链接:激活链接中需要包含用户身份信息:用户名或者ID /user/active
+        # http://127.0.0.1:8000/user/active/id   需要包含身份信息进行加密
+        # 返回应答,跳转首页,使用反向解析函数
+
+        # 1 加密用户身份信息,生成激活token,使用Django自带的在Settings中的秘钥,设置过期时间一小时
+        serializer = Serializer(settings.SECRET_KEY, 3600)
+        # 2 加密
+        info = {'confirm': user.id}
+        token = serializer.dumps(info)
+
         # 返回应答,跳转首页,使用反向解析函数
         return redirect(reverse('goods:index'))
 
@@ -166,3 +182,33 @@ class RegisterView(View):
 
 
 '''类视图原理'''
+
+
+class ActiveView(View):
+    # 用户激活
+    def get(self, request, token):
+        # 进行解密 获取要激活的用户信息
+        serializer = Serializer(settings.SECRET_KEY, 3600)
+        try:
+            info = serializer.loads(token)  # 接token
+            # 获取激活用户的id
+            user_id = info['confirm']
+            # 根据id获取用户信息
+            user = User.objects.get(id=user_id)
+            # 更改激活标记
+            user.is_active = 1
+            user.save()
+
+            # 返回一个应该,跳转登录页面
+            return redirect(reverse('user:login'))
+        except SignatureExpired as e:
+            # 激活链接已过期
+            return HttpResponse("激活链接已经过期")
+
+
+# /user/login
+class LoginView(View):
+    # 登录
+    def get(self, request):
+        # 显示登录页面
+        return render(request, 'login.html')
