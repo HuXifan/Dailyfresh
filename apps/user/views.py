@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 # from django.urls import reverse
 from django.core.urlresolvers import reverse
+from django.core.mail import send_mail  #
 from django.views.generic import View
 from user.models import User
 from django.conf import settings
@@ -173,6 +174,13 @@ class RegisterView(View):
         # 2 加密
         info = {'confirm': user.id}
         token = serializer.dumps(info)
+
+        # 发邮件
+        subject = 'Django项目,天天生鲜'
+        message = 'information'
+        sender = settings.EMAIL_FROM  # 发件人
+        receiver = [email]
+        send_mail(subject, message, sender, recipient_list=receiver)
 
         # 返回应答,跳转首页,使用反向解析函数
         return redirect(reverse('goods:index'))

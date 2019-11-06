@@ -124,3 +124,20 @@ TINYMCE_DEFAULT_CONFIG = {
     'height': '600',
     'width': '400',
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.163.com'  # 发邮件的SMTP服务器地址
+EMAIL_PORT = 25
+EMAIL_USE_TLS = True
+# 发送邮件的邮箱
+EMAIL_HOST_USER = 'huxifan666@163.com'
+# 在邮箱中设置的客户端授权密码
+EMAIL_HOST_PASSWORD = 'huxifan666'
+# 收件人看到的发件人
+EMAIL_FROM = 'python_Django<huxifan666@163.com>'
+'''
+服务器地址:
+POP3服务器: pop.163.com
+SMTP服务器: smtp.163.com
+
+'''
