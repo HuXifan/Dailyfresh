@@ -24,7 +24,8 @@
             <a href="#">登录</a>
         </div>
         <div class="reg_form clearfix">
-            <form method="post" action="/user/register_handler">
+            <form method="post" action="/user/register">
+{#            <form method="post" action="/user/register_handler">#}
                 {% csrf_token %}
                 {# 使用django的CSRF的防护#}
                 <ul>
