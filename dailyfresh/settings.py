@@ -132,7 +132,7 @@ EMAIL_USE_TLS = True  # 邮箱连接失败增加项
 # 发送邮件的邮箱
 EMAIL_HOST_USER = 'huxifan666@163.com'
 # 在邮箱中设置的客户端授权密码
-EMAIL_HOST_PASSWORD = 'huxifan666'
+EMAIL_HOST_PASSWORD = 'huxifan666'  # 邮箱密码.163
 # 收件人看到的发件人
 EMAIL_FROM = 'python_Django<huxifan666@163.com>'
 '''

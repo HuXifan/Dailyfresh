@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 # from django.urls import reverse
 from django.core.urlresolvers import reverse
-from django.core.mail import send_mail  #
+from django.core.mail import send_mail  # 发送邮件函数
 from django.views.generic import View
 from user.models import User
 from django.conf import settings
@@ -173,14 +173,18 @@ class RegisterView(View):
         serializer = Serializer(settings.SECRET_KEY, 3600)
         # 2 加密
         info = {'confirm': user.id}
-        token = serializer.dumps(info)  # 加密后的token
+        token = serializer.dumps(info)  # 加密后的token,返回的是bytes字节流数据
+        token = token.decode()
 
         # 发邮件
-        subject = 'Django项目,天天生鲜'
-        message = 'information'
+        subject = 'Django项目,天天生鲜'  # 邮件主题
+        message = ''# 邮件正文
+        html_message = '<h1>%s,欢迎您成为天天生鲜注册会员</h1>请点击下方激活您的账户<br><a href="http:127.0.0.1:8000/user/active/%s">http:127.0.0.1:8000/user/active/%s</a>' % (
+            username, token, token)
         sender = settings.EMAIL_FROM  # 发件人
-        receiver = [email]
-        send_mail(subject, message, sender, recipient_list=receiver)
+        receiver = [email]  # 收件人,列表-->用户的注册邮箱
+        send_mail(subject, message, sender, receiver, html_message=html_message)
+        # 专门的参数html_message
 
         # 返回应答,跳转首页,使用反向解析函数
         return redirect(reverse('goods:index'))
