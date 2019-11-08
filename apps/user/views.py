@@ -9,6 +9,7 @@ from user.models import User
 from django.conf import settings
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer  # 帮助实现加密
 from itsdangerous import SignatureExpired  # 异常
+from celery_tasks.tasks import send_register_active_email  # 导入发送邮件函数
 
 
 # Create your views here.
@@ -177,14 +178,17 @@ class RegisterView(View):
         token = token.decode()
 
         # 发邮件
-        subject = 'Django项目,天天生鲜'  # 邮件主题
-        message = ''# 邮件正文
-        html_message = '<h1>%s,欢迎您成为天天生鲜注册会员</h1>请点击下方激活您的账户<br><a href="http:127.0.0.1:8000/user/active/%s">http:127.0.0.1:8000/user/active/%s</a>' % (
-            username, token, token)
-        sender = settings.EMAIL_FROM  # 发件人
-        receiver = [email]  # 收件人,列表-->用户的注册邮箱
-        send_mail(subject, message, sender, receiver, html_message=html_message)
+        # subject = 'Django项目,天天生鲜'  # 邮件主题
+        # message = ''  # 邮件正文
+        # html_message = '<h1>%s,欢迎您成为天天生鲜注册会员</h1>请点击下方激活您的账户<br><a href="http:127.0.0.1:8000/user/active/%s">http:127.0.0.1:8000/user/active/%s</a>' % (
+        #     username, token, token)
+        # sender = settings.EMAIL_FROM  # 发件人
+        # receiver = [email]  # 收件人,列表-->用户的注册邮箱
+        # send_mail(subject, message, sender, receiver, html_message=html_message)
         # 专门的参数html_message
+
+        # 发邮件替换为异步使用celery,发出任务
+        send_register_active_email.delay(email, username, token)  # 收件人，用户名,token
 
         # 返回应答,跳转首页,使用反向解析函数
         return redirect(reverse('goods:index'))
@@ -197,20 +201,18 @@ class RegisterView(View):
 
 
 class ActiveView(View):
+
     # 用户激活
     def get(self, request, token):
         # 进行解密 获取要激活的用户信息
-        serializer = Serializer(settings.SECRET_KEY, 3600)
+        serializer = Serializer(settings.SECRET_KEY, 3600)  # 和加密时一样
         try:
             info = serializer.loads(token)  # 接token,loads解密
-            # 获取激活用户的id
-            user_id = info['confirm']
-            # 根据id获取用户信息
-            user = User.objects.get(id=user_id)
+            user_id = info['confirm']  # 获取激活用户的id
+            user = User.objects.get(id=user_id)  # 根据id获取用户信息
             # 更改激活标记
             user.is_active = 1
             user.save()
-
             # 返回一个应该,跳转登录页面:使用反向解析
             return redirect(reverse('user:login'))
         except SignatureExpired as e:
@@ -224,3 +226,39 @@ class LoginView(View):
     def get(self, request):
         # 显示登录页面
         return render(request, 'login.html')
+
+
+'''
+(dj182) huxf@deepin:~/Dj18/dailyfresh$ celery -A celery_tasks.tasks worker -l info
+ 
+ -------------- celery@deepin v4.3.0 (rhubarb)
+---- **** ----- 
+--- * ***  * -- Linux-4.15.0-29deepin-generic-x86_64-with-debian-9.0 2019-11-08 21:07:54
+-- * - **** --- 
+- ** ---------- [config]
+- ** ---------- .> app:         celery_tasks.tasks:0x7ff93a362ef0
+- ** ---------- .> transport:   redis://10.10.21.29:6379/8
+- ** ---------- .> results:     disabled://
+- *** --- * --- .> concurrency: 4 (prefork)
+-- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** ----- 
+ -------------- [queues]
+                .> celery           exchange=celery(direct) key=celery
+                
+
+[tasks]
+  . celery_tasks.tasks.send_register_active_email
+
+[2019-11-08 21:07:54,348: INFO/MainProcess] Connected to redis://10.10.21.29:6379/8
+[2019-11-08 21:07:54,356: INFO/MainProcess] mingle: searching for neighbors
+[2019-11-08 21:07:55,382: INFO/MainProcess] mingle: all alone
+[2019-11-08 21:07:55,389: INFO/MainProcess] celery@deepin ready.
+
+......注册....
+
+[2019-11-08 22:20:45,919: INFO/MainProcess] celery@deepin ready.
+[2019-11-08 22:21:24,116: INFO/MainProcess] Received task: celery_tasks.tasks.send_register_active_email[a2976dab-9b17-466b-8d85-5c8a413282d2]  
+[2019-11-08 22:21:31,325: INFO/PoolWorker-1] Task celery_tasks.tasks.send_register_active_email[a2976dab-9b17-466b-8d85-5c8a413282d2] succeeded in 7.2070167059991945s: None
+
+
+'''
