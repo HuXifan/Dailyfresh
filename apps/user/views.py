@@ -166,14 +166,14 @@ class RegisterView(View):
         user.save()  # 保存
 
         # 发送激活邮件 包含激活链接:激活链接中需要包含用户身份信息:用户名或者ID /user/active
-        # http://127.0.0.1:8000/user/active/id   需要包含身份信息进行加密
+        # http://127.0.0.1:8000/user/active/jiamixinxi  需要包含身份信息进行加密
         # 返回应答,跳转首页,使用反向解析函数
 
         # 1 加密用户身份信息,生成激活token,使用Django自带的在Settings中的秘钥,设置过期时间一小时
         serializer = Serializer(settings.SECRET_KEY, 3600)
         # 2 加密
         info = {'confirm': user.id}
-        token = serializer.dumps(info)
+        token = serializer.dumps(info)  # 加密后的token
 
         # 发邮件
         subject = 'Django项目,天天生鲜'
@@ -198,7 +198,7 @@ class ActiveView(View):
         # 进行解密 获取要激活的用户信息
         serializer = Serializer(settings.SECRET_KEY, 3600)
         try:
-            info = serializer.loads(token)  # 接token
+            info = serializer.loads(token)  # 接token,loads解密
             # 获取激活用户的id
             user_id = info['confirm']
             # 根据id获取用户信息
@@ -207,10 +207,10 @@ class ActiveView(View):
             user.is_active = 1
             user.save()
 
-            # 返回一个应该,跳转登录页面
+            # 返回一个应该,跳转登录页面:使用反向解析
             return redirect(reverse('user:login'))
         except SignatureExpired as e:
-            # 激活链接已过期
+            # 异常 激活链接已过期
             return HttpResponse("激活链接已经过期")
 
 

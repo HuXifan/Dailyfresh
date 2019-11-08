@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))  # 加在第0个位置
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # django内部的秘钥
-SECRET_KEY = '5u4*w&yyy!q-!zcnij8ss=fot0uz&6x)evb5y+0gth6skmd#3b'
+SECRET_KEY = '5u4*w&yyy!q-!zcnij8ss=fot0uz&6x)evb5y+0gth6skmd#3b'  # 配置项内部的秘钥
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -128,7 +128,7 @@ TINYMCE_DEFAULT_CONFIG = {
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.163.com'  # 发邮件的SMTP服务器地址
 EMAIL_PORT = 25
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = True  # 邮箱连接失败增加项
 # 发送邮件的邮箱
 EMAIL_HOST_USER = 'huxifan666@163.com'
 # 在邮箱中设置的客户端授权密码
