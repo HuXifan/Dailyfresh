@@ -5,11 +5,14 @@ from django.core.mail import send_mail
 
 import os
 import django
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dailyfresh.settings")
-django.setup()  # 以上四行加在任务处理者一端
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dailyfresh.settings")  # 设置环境变量,加载配置文件Settings
+django.setup()  # django 环境初始化
+# 以上四行加在任务处理者一端
 
 # 创建一个Celery的实例对象  ,broker 中间人任务队列
 app = Celery('celery_tasks.tasks', broker='redis://10.10.21.29:6379/8')  # 使用redis指定8号数据库
+
+
 # app = Celery('celery_tasks.tasks', broker='redis://0.0.0.0:6379/8')  # 使用redis指定8号数据库
 
 
@@ -28,3 +31,6 @@ def send_register_active_email(to_email, username, token):
     time.sleep(5)
 
 
+'''
+发出者处理者task代码要一致
+'''

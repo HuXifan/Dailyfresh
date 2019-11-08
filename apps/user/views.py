@@ -9,7 +9,7 @@ from user.models import User
 from django.conf import settings
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer  # 帮助实现加密
 from itsdangerous import SignatureExpired  # 异常
-from celery_tasks.tasks import send_register_active_email  # 导入发送邮件函数
+from celery_tasks.tasks import send_register_active_email  # 导入发送邮件任务函数
 
 
 # Create your views here.
@@ -187,7 +187,7 @@ class RegisterView(View):
         # send_mail(subject, message, sender, receiver, html_message=html_message)
         # 专门的参数html_message
 
-        # 发邮件替换为异步使用celery,发出任务
+        # 发邮件替换为异步使用celery, '任务函数名字'.delay()发出任务,加入任务队列
         send_register_active_email.delay(email, username, token)  # 收件人，用户名,token
 
         # 返回应答,跳转首页,使用反向解析函数
