@@ -10,6 +10,7 @@ from django.conf import settings
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer  # 帮助实现加密
 from itsdangerous import SignatureExpired  # 异常
 from celery_tasks.tasks import send_register_active_email  # 导入发送邮件任务函数
+from django.contrib.auth import authenticate,login
 
 
 # Create your views here.
@@ -227,16 +228,47 @@ class LoginView(View):
         # 显示登录页面
         return render(request, 'login.html')
 
+    def post(self, request):
+        # 登录校验:  -> 接收数据,校验数据,业务处理:登录校验,登陆处理
+        username = request.POST.get('username')
+        password = request.POST.get('pwd')
+        # 校验数据 合法性
+        if not all([username, password]):
+            return render(request, 'login.html', {'errmsg': '数据不完整'})
+        # 登录校验
+        # User.objects.get(username=username, password=password)
+
+        # django自带的user认证
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            # the password verified for the user 用户名密码正确
+            if user.is_active:
+                # 用户已经激活
+                print("User is valid, active and authenticated")
+                # 　记录用户登录状态
+                login(request, user)
+
+                # 跳转到首页
+                return redirect(reverse('goods:index'))
+            else:
+                # 用户未激活
+                print("The password is valid, but the account has been disabled!")
+                return render(request, 'login.html', {'errmsg': '账户未激活'})
+        else:
+            # the authentication system was unable to verify the username and password
+            # 用户名或密码错误
+            return render(request, 'login.html', {'errmsg': '用户名或密码错误'})
+
 
 '''
 (dj182) huxf@deepin:~/Dj18/dailyfresh$ celery -A celery_tasks.tasks worker -l info
  
- -------------- celery@deepin v4.3.0 (rhubarb)
+ -------------- celery@deepin v4.1.0 (latentcall)
 ---- **** ----- 
---- * ***  * -- Linux-4.15.0-29deepin-generic-x86_64-with-debian-9.0 2019-11-08 21:07:54
+--- * ***  * -- Linux-4.15.0-29deepin-generic-x86_64-with-debian-9.0 2019-11-09 12:39:03
 -- * - **** --- 
 - ** ---------- [config]
-- ** ---------- .> app:         celery_tasks.tasks:0x7ff93a362ef0
+- ** ---------- .> app:         celery_tasks.tasks:0x7fc3559c2c18
 - ** ---------- .> transport:   redis://10.10.21.29:6379/8
 - ** ---------- .> results:     disabled://
 - *** --- * --- .> concurrency: 4 (prefork)
@@ -249,10 +281,14 @@ class LoginView(View):
 [tasks]
   . celery_tasks.tasks.send_register_active_email
 
-[2019-11-08 21:07:54,348: INFO/MainProcess] Connected to redis://10.10.21.29:6379/8
-[2019-11-08 21:07:54,356: INFO/MainProcess] mingle: searching for neighbors
-[2019-11-08 21:07:55,382: INFO/MainProcess] mingle: all alone
-[2019-11-08 21:07:55,389: INFO/MainProcess] celery@deepin ready.
+[2019-11-09 12:39:03,973: INFO/MainProcess] Connected to redis://10.10.21.29:6379/8
+[2019-11-09 12:39:03,980: INFO/MainProcess] mingle: searching for neighbors
+[2019-11-09 12:39:04,998: INFO/MainProcess] mingle: all alone
+/home/huxf/.pyenv/versions/3.5.3/envs/dj182/lib/python3.5/site-packages/celery/fixups/django.py:202: UserWarning: Using settings.DEBUG leads to a memory leak, never use this setting in production environments!
+  warnings.warn('Using settings.DEBUG leads to a memory leak, never '
+
+[2019-11-09 12:39:05,007: WARNING/MainProcess] /home/huxf/.pyenv/versions/3.5.3/envs/dj182/lib/python3.5/site-packages/celery/fixups/django.py:202: UserWarning: Using settings.DEBUG leads to a memory leak, never use this setting in production environments!
+  warnings.warn('Using settings.DEBUG leads to a memory leak, never '
 
 ......注册....
 
