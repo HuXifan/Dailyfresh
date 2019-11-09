@@ -141,3 +141,19 @@ POP3服务器: pop.163.com
 SMTP服务器: smtp.163.com
 
 '''
+
+# Django缓存配置
+# 作为 cache backend 使用配置
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        # "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": "redis://10.10.21.29:6379/9",  # 8号已经用了
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+# 作为 session backend 使用配置
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
