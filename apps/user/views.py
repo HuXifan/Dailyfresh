@@ -10,7 +10,7 @@ from django.conf import settings
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer  # 帮助实现加密
 from itsdangerous import SignatureExpired  # 异常
 from celery_tasks.tasks import send_register_active_email  # 导入发送邮件任务函数
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate, login
 
 
 # Create your views here.
@@ -226,7 +226,15 @@ class LoginView(View):
     # 登录
     def get(self, request):
         # 显示登录页面
-        return render(request, 'login.html')
+        # 判断是否记住了用户名
+        if 'username' in request.COOKIES:
+            username = request.COOKIES.get('username')  # 在COOKIE里就获取
+            checked = 'checked'
+        else:
+            username = ''
+            checked = ''
+        # 使用模板
+        return render(request, 'login.html', {'username': username, 'checked': checked})
 
     def post(self, request):
         # 登录校验:  -> 接收数据,校验数据,业务处理:登录校验,登陆处理
@@ -247,9 +255,21 @@ class LoginView(View):
                 print("User is valid, active and authenticated")
                 # 　记录用户登录状态
                 login(request, user)
-
                 # 跳转到首页
-                return redirect(reverse('goods:index'))
+                response = redirect(reverse('goods:index'))  # HttpResponseRedirect
+
+                # 判断是否需要记住用户名
+                remember = request.POST.get('remember')
+                if remember == 'on':
+                    # 需要记住用户名,设置cookie,过期时间一周
+                    response.set_cookie('username', username, max_age=7 * 24 * 3600)
+                else:
+                    # 不需要记住用户名
+                    response.delete_cookie('username')
+
+                # 返回相应
+                return response
+
             else:
                 # 用户未激活
                 print("The password is valid, but the account has been disabled!")

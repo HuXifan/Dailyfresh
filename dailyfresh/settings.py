@@ -157,3 +157,7 @@ CACHES = {
 # 作为 session backend 使用配置
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
+'''
+10.10.21.29:6379[9]> keys *
+1) ":1:django.contrib.sessions.cache7mtg6xmp54e6apmvk3ad6qln525bvut1"
+'''
