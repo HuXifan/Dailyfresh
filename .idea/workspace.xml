@@ -15,12 +15,14 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
   <component name="ProjectId" id="1TB85DRMRMEc0F70Y2WYgZPpZUD" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
@@ -31,10 +33,10 @@
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/templates" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/static" />
       <recent name="$PROJECT_DIR$/apps/cart" />
       <recent name="$PROJECT_DIR$/apps/order" />
-      <recent name="$PROJECT_DIR$/apps/goods" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -94,7 +96,8 @@
       <workItem from="1573220665728" duration="3372000" />
       <workItem from="1573272741330" duration="8094000" />
       <workItem from="1573303780245" duration="3560000" />
-      <workItem from="1573347157209" duration="1730000" />
+      <workItem from="1573347157209" duration="8589000" />
+      <workItem from="1573375728727" duration="3995000" />
     </task>
     <servers />
   </component>
