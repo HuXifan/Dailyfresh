@@ -255,6 +255,7 @@ class LoginView(View):
                 print("User is valid, active and authenticated")
                 # 　记录用户登录状态
                 login(request, user)
+                # 获取登录后所要跳转的地址
                 # 跳转到首页
                 response = redirect(reverse('goods:index'))  # HttpResponseRedirect
 
@@ -318,3 +319,30 @@ class LoginView(View):
 
 
 '''
+
+
+# /user
+class UserInfoView(View):
+    # 显示用户中心页
+    def get(self, request):
+        # 显示
+        # page='user'
+        return render(request, 'user_center_info.html', {'page': 'user'})
+
+
+# /user/order
+class UserOrderView(View):
+    # 显示用户中心页
+    def get(self, request):
+        # 显示
+        # page='order'
+        return render(request, 'user_center_order.html', {'page': 'order'})
+
+
+# /user/address
+class AddressView(View):
+    # 显示用户中心页
+    def get(self, request):
+        # 显示
+        # page='address'
+        return render(request, 'user_center_site.html', {'page': 'address'})
