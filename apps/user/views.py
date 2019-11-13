@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail  # 发送邮件函数
 from django.views.generic import View
-from user.models import User
+from user.models import User, Address
 from django.conf import settings
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer  # 帮助实现加密
 from itsdangerous import SignatureExpired  # 异常
@@ -350,6 +350,10 @@ class UserInfoView(LoginRequiredMixin, View):
         # 如果用户没有登录-> AnonmouseUser的一个实例
         # 如果用户已经登录-> User的一个实例,两个类都用有方法,在模板中可以直接使用User的对象和方法
 
+        # 获取用户的个人信息
+
+        # 获取用户的最近浏览记录
+
         return render(request, 'user_center_info.html', {'page': 'user'})
 
 
@@ -359,6 +363,9 @@ class UserOrderView(LoginRequiredMixin, View):
     def get(self, request):
         # 显示
         # page='order'
+
+        # 获取用户的订单信息
+
         return render(request, 'user_center_order.html', {'page': 'order'})
 
 
@@ -368,4 +375,55 @@ class AddressView(LoginRequiredMixin, View):
     def get(self, request):
         # 显示
         # page='address'
-        return render(request, 'user_center_site.html', {'page': 'address'})
+
+        user = request.user  # 获取用户登录的User对象
+        # 获取用户默认收地址
+        try:
+            address = Address.objects.get(user=user, is_default=True)
+        except Address.DoesNotExist:
+            # 　不存在默认收货地址，赋值None
+            address = None
+
+        # 使用模板,传过去address
+        return render(request, 'user_center_site.html', {'page': 'address', 'address': address})
+
+    def post(self, request):
+        # 添加地址:
+        # 接受数据
+        receiver = request.POST.get('receiver')  # 接受收件人信息
+        addr = request.POST.get('addr')
+        zip_code = request.POST.get('zip_code')
+        phone = request.POST.get('phone')  # 手机
+        # 数据校验:判断数据完整性
+        if not all([receiver, addr, phone]):
+            return render(request, 'user_center_site.html', {'errmsg': '数据不完整'})
+        # 校验手机号
+        if not re.match(r'^1[3|5|8|7|9][0-9]{9}$', phone):
+            return render(request, 'user_center_site.html', {'errmsg': '手机格式不正确'})
+
+        # 业务处理:地址添加
+        # 如果已存在默认收货地址,添加的地址不作为默认收货地址,否则设置为默认地址
+        # 先判断是否有默认收货地址,先导入模型类
+        user = request.user  # 获取用户登录的User对象
+        try:
+            address = Address.objects.get(user=user, is_default=True)
+        except Address.DoesNotExist:
+            # 　不存在默认收货地址，赋值None
+            address = None
+
+        if address:
+            # 不是None，已经有默认收货地址,定义一个变量is_default
+            is_default = False
+        else:
+            is_default = True
+
+        # 添加地址
+        Address.objects.create(user=user,
+                               receiver=receiver,
+                               addr=addr,
+                               zip_code=zip_code,
+                               phone=phone,
+                               is_default=is_default)
+
+        # 返回应答,刷新地址页面
+        return redirect(reverse('user:address'))  # get方式
