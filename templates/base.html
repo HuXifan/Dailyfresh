@@ -24,14 +24,22 @@
         <div class="header">
             <div class="welcome fl">欢迎来到天天生鲜!</div>
             <div class="fr">
-                <div class="login_info fl">
-                    欢迎您：<em>阿范</em>
-                </div>
-                <div class="login_btn fl">
-                    <a href="login.html">登录</a>
-                    <span>|</span>
-                    <a href="register.html">注册</a>
-                </div>
+                {% if user.is_authenticated %}
+                    <div class="login_btn fl">
+                        欢迎您：<em>{{ user.username }}</em>
+                        {# 如果用户已经登录-> User的一个实例,两个类都用有方法,在模板中可以直接使用User的对象和方法#}
+                        <span>|</span>
+                        <a href="login.html">退出</a>
+                    </div>
+
+                {% else %}
+                    {# 未登录的显示信息 #}
+                    <div class="login_btn fl">
+                        <a href="login.html">登录</a>
+                        <span>|</span>
+                        <a href="register.html">注册</a>
+                    </div>
+                {% endif %}
                 <div class="user_link fl">
                     <span>|</span>
                     <a href="user_center_info.html">用户中心</a>

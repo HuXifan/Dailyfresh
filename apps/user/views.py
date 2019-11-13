@@ -10,7 +10,7 @@ from django.conf import settings
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer  # 帮助实现加密
 from itsdangerous import SignatureExpired  # 异常
 from celery_tasks.tasks import send_register_active_email  # 导入发送邮件任务函数
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from utils.mixin import LoginRequiredMixin
 
 
@@ -256,6 +256,9 @@ class LoginView(View):
                 print("User is valid, active and authenticated")
                 # 　记录用户登录状态
                 login(request, user)
+                '''下面是django.contrib.auth.views.login所做的事情：
+如果通过 GET调用，它显示一个POST给相同URL的登录表单。后面有更多这方面的信息。
+如果通过POST调用并带有用户提交的凭证，它会尝试登入该用户。如果登入成功，该视图重定向到next中指定的URL。如果next没有提供，它重定向到settings.LOGIN_REDIRECT_URL（默认为/accounts/profile/）。如果登入不成功，则重新显示登录表单。'''
                 # 获取登录后所要跳转的地址,如果next返回值,get就会返回,如果获取不到(None),返回默认的值:默认首页
                 next_url = request.GET.get('next', reverse('goods:index'))
                 response = redirect(next_url)
@@ -282,6 +285,16 @@ class LoginView(View):
             # the authentication system was unable to verify the username and password
             # 用户名或密码错误
             return render(request, 'login.html', {'errmsg': '用户名或密码错误'})
+
+
+# 登出
+class LogoutView(View):
+    def get(self, request):
+        # 退出登录
+        logout(request)  # Redirect to a success page.
+        # 当你调用logout()时，当前请求的会话数据将被完全清除。所有存在的数据都将清除。(删除session)
+        # 这是为了防止另外一个人使用相同的Web浏览器登入并访问前一个用户的会话数据。
+        # 如果你想在用户登出之后>可以立即访问放入会话中的数据，请在调用django.contrib.auth.logout()之后放入。
 
 
 '''
@@ -331,6 +344,11 @@ class UserInfoView(LoginRequiredMixin, View):
     def get(self, request):
         # 显示
         # page='user'
+        # if request.user.is_authenticated():
+        # 除了你给模板文件传递的模板变量之外,Django框架会把request.user也传递给模板文件
+        # 如果用户没有登录-> AnonmouseUser的一个对象
+        # 如果用户已经登录-> User的一个实例,两个类都用有方法,在模板中可以直接使用User的对象和方法
+
         return render(request, 'user_center_info.html', {'page': 'user'})
 
 
