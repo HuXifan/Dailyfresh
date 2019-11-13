@@ -11,6 +11,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer  # 帮助
 from itsdangerous import SignatureExpired  # 异常
 from celery_tasks.tasks import send_register_active_email  # 导入发送邮件任务函数
 from django.contrib.auth import authenticate, login
+from utils.mixin import LoginRequiredMixin
 
 
 # Create your views here.
@@ -323,8 +324,9 @@ class LoginView(View):
 '''
 
 
+# 以下三个视图类继承自LoginRequireMixin,封装了需要登录才能访问的功能
 # /user
-class UserInfoView(View):
+class UserInfoView(LoginRequiredMixin, View):
     # 显示用户中心页
     def get(self, request):
         # 显示
@@ -333,7 +335,7 @@ class UserInfoView(View):
 
 
 # /user/order
-class UserOrderView(View):
+class UserOrderView(LoginRequiredMixin, View):
     # 显示用户中心页
     def get(self, request):
         # 显示
@@ -342,7 +344,7 @@ class UserOrderView(View):
 
 
 # /user/address
-class AddressView(View):
+class AddressView(LoginRequiredMixin, View):
     # 显示用户中心页
     def get(self, request):
         # 显示
