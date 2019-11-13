@@ -255,11 +255,11 @@ class LoginView(View):
                 print("User is valid, active and authenticated")
                 # 　记录用户登录状态
                 login(request, user)
-                # 获取登录后所要跳转的地址,如果next返回值,get就会返回,如果获取不到,返回默认的值:默认首页
+                # 获取登录后所要跳转的地址,如果next返回值,get就会返回,如果获取不到(None),返回默认的值:默认首页
                 next_url = request.GET.get('next', reverse('goods:index'))
                 response = redirect(next_url)
                 # 跳转到首页
-                response = redirect(reverse('goods:index'))  # HttpResponseRedirect
+                # response = redirect(reverse('goods:index'))  # HttpResponseRedirect
 
                 # 判断是否需要记住用户名
                 remember = request.POST.get('remember')

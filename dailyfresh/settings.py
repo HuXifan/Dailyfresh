@@ -161,5 +161,5 @@ SESSION_CACHE_ALIAS = "default"
 10.10.21.29:6379[9]> keys *
 1) ":1:django.contrib.sessions.cache7mtg6xmp54e6apmvk3ad6qln525bvut1"
 '''
-# 配置登录URL地址,不使用默认
+# 配置登录URL地址,不使用默认 /account/login
 LOGIN_URL = '/user/login'
