@@ -287,14 +287,15 @@ class LoginView(View):
             return render(request, 'login.html', {'errmsg': '用户名或密码错误'})
 
 
-# 登出
+# 登出  /user/logout
 class LogoutView(View):
     def get(self, request):
         # 退出登录
         logout(request)  # Redirect to a success page.
-        # 当你调用logout()时，当前请求的会话数据将被完全清除。所有存在的数据都将清除。(删除session)
+        # 当你调用logout()时，当前请求的会话数据将被完全清除。所有存在的数据都将清除。(清除session)
         # 这是为了防止另外一个人使用相同的Web浏览器登入并访问前一个用户的会话数据。
         # 如果你想在用户登出之后>可以立即访问放入会话中的数据，请在调用django.contrib.auth.logout()之后放入。
+        return redirect(reverse('goods:index'))
 
 
 '''
@@ -337,7 +338,7 @@ class LogoutView(View):
 '''
 
 
-# 以下三个视图类继承自LoginRequireMixin,封装了需要登录才能访问的功能
+# 以下三个视图类继承自LoginRequireMixin,封装了需要登录才能访问的功能先继承LOGINRequiredMixin ,后继承view
 # /user
 class UserInfoView(LoginRequiredMixin, View):
     # 显示用户中心页
@@ -346,7 +347,7 @@ class UserInfoView(LoginRequiredMixin, View):
         # page='user'
         # if request.user.is_authenticated():
         # 除了你给模板文件传递的模板变量之外,Django框架会把request.user也传递给模板文件
-        # 如果用户没有登录-> AnonmouseUser的一个对象
+        # 如果用户没有登录-> AnonmouseUser的一个实例
         # 如果用户已经登录-> User的一个实例,两个类都用有方法,在模板中可以直接使用User的对象和方法
 
         return render(request, 'user_center_info.html', {'page': 'user'})
