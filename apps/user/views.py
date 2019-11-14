@@ -351,10 +351,12 @@ class UserInfoView(LoginRequiredMixin, View):
         # 如果用户已经登录-> User的一个实例,两个类都用有方法,在模板中可以直接使用User的对象和方法
 
         # 获取用户的个人信息
+        user = request.user
+        address = Address.objects.get_default_address(user)
 
         # 获取用户的最近浏览记录
 
-        return render(request, 'user_center_info.html', {'page': 'user'})
+        return render(request, 'user_center_info.html', {'page': 'user', 'address': address})
 
 
 # /user/order
@@ -378,12 +380,12 @@ class AddressView(LoginRequiredMixin, View):
 
         user = request.user  # 获取用户登录的User对象
         # 获取用户默认收地址
-        try:
-            address = Address.objects.get(user=user, is_default=True)
-        except Address.DoesNotExist:
-            # 　不存在默认收货地址，赋值None
-            address = None
-
+        # try:
+        #     address = Address.objects.get(user=user, is_default=True)
+        # except Address.DoesNotExist:
+        #     # 　不存在默认收货地址，赋值None
+        #     address = None
+        address = Address.objects.get_default_address(user)  # 以上方法的封装
         # 使用模板,传过去address
         return render(request, 'user_center_site.html', {'page': 'address', 'address': address})
 
@@ -404,12 +406,14 @@ class AddressView(LoginRequiredMixin, View):
         # 业务处理:地址添加
         # 如果已存在默认收货地址,添加的地址不作为默认收货地址,否则设置为默认地址
         # 先判断是否有默认收货地址,先导入模型类
+
         user = request.user  # 获取用户登录的User对象
-        try:
-            address = Address.objects.get(user=user, is_default=True)
-        except Address.DoesNotExist:
-            # 　不存在默认收货地址，赋值None
-            address = None
+        # try:
+        #     address = Address.objects.get(user=user, is_default=True)  # models.Manager 对象
+        # except Address.DoesNotExist:
+        #     # 　不存在默认收货地址，赋值None
+        #     address = None
+        address = Address.objects.get_default_address(user)
 
         if address:
             # 不是None，已经有默认收货地址,定义一个变量is_default
