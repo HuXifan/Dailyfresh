@@ -1,4 +1,6 @@
 import re
+import redis
+from redis import StrictRedis
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 # from django.urls import reverse
@@ -6,12 +8,14 @@ from django.core.urlresolvers import reverse
 from django.core.mail import send_mail  # 发送邮件函数
 from django.views.generic import View
 from user.models import User, Address
+from goods.models import GoodsSKU
 from django.conf import settings
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer  # 帮助实现加密
 from itsdangerous import SignatureExpired  # 异常
 from celery_tasks.tasks import send_register_active_email  # 导入发送邮件任务函数
 from django.contrib.auth import authenticate, login, logout
 from utils.mixin import LoginRequiredMixin
+from django_redis import get_redis_connection
 
 
 # Create your views here.
@@ -355,8 +359,34 @@ class UserInfoView(LoginRequiredMixin, View):
         address = Address.objects.get_default_address(user)
 
         # 获取用户的最近浏览记录
+        # sr = StrictRedis(host='127.0.0.1', port='6379', db=9)
 
-        return render(request, 'user_center_info.html', {'page': 'user', 'address': address})
+        con = get_redis_connection('default')
+        history_key = 'history_%d' % user.id
+        # 获取用户前五条浏览记录商品的id
+        sku_ids = con.lrange(history_key, 0, 4)  # 返回列表
+
+        # 根据id查询用户浏览的商品的具体信息
+        # goods_li = GoodsSKU.objects.filter(id_in=sku_ids)  # 返回列表查询集
+        # goods_res = []
+        # 两层循环，按照浏览顺序保存
+        # for a_id in sku_ids:
+        #     # a_id就会说用户浏览的id
+        #     for goods in goods_li:
+        #         if a_id == goods.id:
+        #             goods_res.append(goods)
+
+        goods_li = []
+        # 遍历获取用户浏览的商品信息
+        for id in sku_ids:
+            goods = GoodsSKU.objects.filter(id=id)
+            goods_li.append(goods)
+
+        # 组织上下文
+        context = {'page': 'user', 'address': address, 'goods_li': goods_li}
+
+        # 除了你给模板文件传递的模板变量外,Django还会吧request.user也传递给模板文件
+        return render(request, 'user_center_info.html', context)
 
 
 # /user/order
