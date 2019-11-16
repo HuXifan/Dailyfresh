@@ -27,15 +27,15 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/utils/fdfs" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/static" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/static" />
       <recent name="$PROJECT_DIR$/utils/fdfs" />
       <recent name="$PROJECT_DIR$/templates" />
       <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/static" />
       <recent name="$PROJECT_DIR$/apps/cart" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -140,7 +140,7 @@
       <workItem from="1573802089392" duration="5150000" />
       <workItem from="1573819264035" duration="2078000" />
       <workItem from="1573868463471" duration="2162000" />
-      <workItem from="1573902819764" duration="5923000" />
+      <workItem from="1573902819764" duration="8340000" />
     </task>
     <servers />
   </component>

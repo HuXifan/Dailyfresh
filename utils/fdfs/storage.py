@@ -9,7 +9,7 @@ class FDFSStorage(Storage):
         pass
 
     def _save(self, name, content):
-        # 保存文件时使用
+        # 保存文件时使用,上传到FDFS
         # name:上传文件名字, content:包含你上传文件内容的File类的对象, max_length
 
         # 更改,上传到FDFS
@@ -42,3 +42,8 @@ class FDFSStorage(Storage):
         否则如果这个名称可用于新文件，返回False。'''
         # Django判断文件名是否可用,文件内容没有保存到Django服务器,故文件名存在不可用状态
         return False
+
+    def url(self, name):
+        # 返回访问文件的url路径
+        '''subclasses of Storage must provide a url() method'''
+        return "http://10.10.21.29:8888" + name

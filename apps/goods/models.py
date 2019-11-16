@@ -8,6 +8,7 @@ class GoodsType(BaseModel):
     '''商品类型模型类'''
     name = models.CharField(max_length=20, verbose_name='种类名称')
     logo = models.CharField(max_length=20, verbose_name='标识')
+    # upload_to 随便写，默认存储时使用的参数
     image = models.ImageField(upload_to='type', verbose_name='商品类型图片')
 
     class Meta:
