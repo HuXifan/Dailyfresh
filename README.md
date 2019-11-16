@@ -77,7 +77,7 @@ python + django + mysql + redis + celery + FastDFS(分布式图片服务器) + n
         ```
 - redis服务端启动  
         ```
-        sudo redis-server /etc/redis/redis.conf
+        sudo redis-server /etc/redis.conf
         ```
 - FastDFS服务启动
         ```    
@@ -142,7 +142,6 @@ vine==1.1.4
 Whoosh==2.7.4
 ```
 ## 注意点
-pip install fdfs_client-py-master 存在bug，需要[下载特定版本](https://pan.baidu.com/s/1NkK7VbeNBrbTPUeTxcYD6A)  
 redis版本需要2.10.6 否则会报错,因为使用django的版本过低问题  
 如果使用乐观锁,需要修改mysql事务的隔离级别设置
 
