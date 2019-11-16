@@ -1,9 +1,23 @@
 from django.core.files.storage import Storage
+from django.conf import settings
 from fdfs_client.client import Fdfs_client
 
 
 class FDFSStorage(Storage):
     # 自定义存储类Fdfs文件存储类
+
+    def __init__(self, client_conf=None, base_url=None):
+        # client_conf:指定配置文件路径,域名base_url
+        # 初始化
+        if client_conf is None:
+            client_conf = settings.FDFS_CLIENT_CONF
+            # client_conf = './utils/fdfs/client.conf'
+        self.client_conf = client_conf
+        if base_url is None:
+            # base_url = "http://10.10.21.29:8888"
+            base_url = settings.FDFS_URL  # 直接从配置文件里拿
+        self.base_url = base_url
+
     def _open(self, name, mode='rb'):
         # 打开文件时使用
         pass
@@ -15,7 +29,7 @@ class FDFSStorage(Storage):
         # 更改,上传到FDFS
 
         # 创建Fdfs_client对象
-        client = Fdfs_client('./utils/fdfs/client.conf')
+        client = Fdfs_client(self.client_conf)
 
         # 上传文件到Fdfs系统中
         res = client.upload_by_buffer(content.read())  # 返回字典dict,content.read()方法读取文件内容
@@ -46,4 +60,4 @@ class FDFSStorage(Storage):
     def url(self, name):
         # 返回访问文件的url路径
         '''subclasses of Storage must provide a url() method'''
-        return "http://10.10.21.29:8888" + name
+        return self.base_url + name
