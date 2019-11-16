@@ -163,3 +163,6 @@ SESSION_CACHE_ALIAS = "default"
 '''
 # 配置登录URL地址,不使用默认 /account/login
 LOGIN_URL = '/user/login'
+
+# 设置Django的文件存储类
+DEFAULT_FILE_STORAGE = 'utils.fdfs.storage.FDFSStorage'
