@@ -27,19 +27,19 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/static" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/static" />
-      <recent name="$PROJECT_DIR$/utils/fdfs" />
-      <recent name="$PROJECT_DIR$/templates" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/apps/cart" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/apps" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates" />
+      <recent name="$PROJECT_DIR$/static" />
+      <recent name="$PROJECT_DIR$/utils/fdfs" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/apps/cart" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -140,7 +140,9 @@
       <workItem from="1573802089392" duration="5150000" />
       <workItem from="1573819264035" duration="2078000" />
       <workItem from="1573868463471" duration="2162000" />
-      <workItem from="1573902819764" duration="9219000" />
+      <workItem from="1573902819764" duration="9683000" />
+      <workItem from="1573954608974" duration="4185000" />
+      <workItem from="1573988606147" duration="7103000" />
     </task>
     <servers />
   </component>
