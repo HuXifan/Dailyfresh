@@ -38,7 +38,7 @@ def send_register_active_email(to_email, username, token):
 
 
 '''
-发出者处理者task代码要一致
+注意:发出者处理者task代码要一致,每次更新每次同步OK
 '''
 
 
@@ -88,4 +88,4 @@ def generate_static_index_html():
     save_path = os.path.join(settings.BASE_DIR, 'static/index.html')
     print(save_path)
     with open(save_path, 'w') as f:
-        f.write(static_index_html)  # 吧渲染后的内容写到文件里面
+        f.write(static_index_html)  # 把渲染后的内容写到文件里面
