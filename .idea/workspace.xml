@@ -28,7 +28,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -142,7 +142,8 @@
       <workItem from="1573868463471" duration="2162000" />
       <workItem from="1573902819764" duration="9683000" />
       <workItem from="1573954608974" duration="4185000" />
-      <workItem from="1573988606147" duration="7103000" />
+      <workItem from="1573988606147" duration="12156000" />
+      <workItem from="1574078688066" duration="3317000" />
     </task>
     <servers />
   </component>
