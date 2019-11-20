@@ -144,7 +144,8 @@
       <workItem from="1573954608974" duration="4185000" />
       <workItem from="1573988606147" duration="12156000" />
       <workItem from="1574078688066" duration="7917000" />
-      <workItem from="1574140116128" duration="12880000" />
+      <workItem from="1574140116128" duration="12972000" />
+      <workItem from="1574234636741" duration="4232000" />
     </task>
     <servers />
   </component>
@@ -152,6 +153,6 @@
     <option name="version" value="1" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/dailyfresh$fdfs_demo.coverage" NAME="fdfs_demo Coverage Results" MODIFIED="1573903504879" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/dailyfresh$fdfs_demo.coverage" NAME="fdfs_demo Coverage Results" MODIFIED="1574249307133" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
