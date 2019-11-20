@@ -142,6 +142,141 @@ vine==1.1.4
 Whoosh==2.7.4
 ```
 
+## 开发方法
+### 用户认证模型
+```
+# django认证系统使用的用户模型
+AUTH_USER_MODEL = "users.User"
+```
+- Django发送邮件
+   - Django网站 ---> smtp服务器 ---> 目的邮箱
+- celery:异步任务队列
+    - 任务的发出者、中间人、任务的处理者可以在同一台电脑上启动，也可以不在同一台电脑上。处理者也需要任务的代码，任务处理者所在电脑必须有网,即能和外机通信.
+    `pip install celery 
+    `
+     - 项目代码（任务发出者）—发出任务—>任务队列（中间人broker）redis<—监听任务队列—任务处理者worker
+- 用户激活
+    - 使用itsdangerous加密用户身份信息
+    - ```python
+        # 加密用户的身份信息，生成激活token
+        serializer = Serializer(settings.SECRET_KEY, 3600)
+        info = {'confirm':user.id}
+        token = serializer.dumps(info)
+        token = token.decode()
+        ```  
+    - 解密用户身份信息
+        ```python
+        serializer = Serializer(settings.SECRET_KEY, 3600)
+        try:
+            # 根据秘钥解密
+            info = serializer.loads(token)
+            # 获取待激活用户的id
+            user_id = info['confirm']
+            # 根据id获取用户信息
+            user = User.objects.get(id=user_id)
+            user.is_active = 1
+            user.save()
+            # 跳转到登录页面
+            return redirect(reverse('user:login'))
+        except SignatureExpired as e:
+            return HttpResponse('激活连接已过期！')
+        ```  
+- 用户登录
+    - 配置redis作为Django缓存和session后端
+    ```python
+    # Django的缓存配置
+    CACHES = {
+        "default":{
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": "redis://172.16.179.142:6379/9",
+            "OPTIONS":{
+                "CLIENT_CLASS":"django_redis.client.DefaultClient",
+        }
+        }
+    }
+    # 配置sessiong存储
+    SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+    SESSION_CACHE_ALIAS = "default"
+    ```
+    - 登录判断装饰器loging_required
+    ```python
+    from django.contrib.auth.decorators import login_required
+    # 使用LoginRequireMixin：
+    class LoginRequiredMixin(object):
+        @classmethod
+        def as_view(cls, **initkwargs):
+            # 调用父类的as_view
+            view = super(LoginRequiredMinxin, cls).as_view(**initkwargs)
+            return login_required(view)
+    ```
+    ```python
+    # 登陆后跳转 --> 获取登录后所需要跳转的地址
+    # 默认跳转到首页
+    next_url = request.GET.get('next', reverse('goods:index'))
+    # 跳转到next_url
+    response = redirect(next_url) # 重定向到新的地址
+    ```
+### 商品模块开发
+- FastDFS分布式文件系统
+    - 配置服务  `tracker_server = ip地址：22122`
+    - 启动tracker,storage, nginx服务
+        ```python
+            sudo service fdfs trackerd start
+            sudo service fsfs storaged start
+            sudo /usr/local/nginx/sbin/nginx
+        ```
+    - 执行测试命令 `fdfs_upload_file /etc/fdfs/client.conf`
+    
+- **nginx特点**
+    - 海量存储，存储容量扩展方便。  
+    - 文件内容重复时只保留一份。
+    - 结合nginx提高网站访问图片的效率`
+    
+### 商品首页
+- redis保存用户的购物车记录
+    - 采用的数据形式：每个用户的购物车记录用一条数据保存：
+    hash：
+    cart_用户id：{‘SKU_ID1’:数量，‘sku_id2’:数量}
+- 页面静态化
+    - 把原本动态的页面处理结果保存成html文件，让用户直接访问这个生成出来的静态的html页面
+    `①使用celery生成静态页面
+    ②配置nginx提供静态页面
+    ③管理员修改首页所使用表中的数据时，重新生成index静态页面`
+- 商品搜索
+    - 搜索引擎:
+    1）可以对表中的某些字段进行关键词分析，简历关键词对应的索引数据。
+    索引：字典目录
+    全文检索框架：可以帮助用户使用搜索引擎。
+    用户----》全文检索框架haystack-----》搜索引擎whoosh
+    2） 搜索引擎的安装和配置
+    ```python
+      # 安装Python包
+      pip install django-haystack
+      pip install whoosh
+    ``` 
+    ```python
+      # 在settings.py文件中注册应用haystack并做如下配置：
+      INSTALLED_APPS = (
+	     'haystack', # 全文检索框架
+      )
+        .
+        .
+        .
+        .
+      # 全文检索框架的配置
+      HAYSTACK_CONNECTIONS = {
+        'default':{
+            # 使用whoosh引擎
+            'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',
+            'PATH': os.path.join(BASE_DIR, 'whoosh_index')
+              }
+        }
+
+# 当添加、修改、删除数据时，自动生成索引
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+    ```
+    
 ## 注意点
 redis版本需要2.10.6 否则会报错,因为使用django的版本过低问题  
 如果使用乐观锁,需要修改mysql事务的隔离级别设置
