@@ -141,6 +141,7 @@ uWSGI==2.0.17.1
 vine==1.1.4
 Whoosh==2.7.4
 ```
+
 ## 注意点
 redis版本需要2.10.6 否则会报错,因为使用django的版本过低问题  
 如果使用乐观锁,需要修改mysql事务的隔离级别设置
@@ -304,4 +305,33 @@ redis版本需要2.10.6 否则会报错,因为使用django的版本过低问题
     |-- MAIN_WRITELOCK
     |-- MAIN_o1a38vfacpcxkfgw.seg
     `-- _MAIN_11.toc
+```
+
+## mysql数据库展示
+```
++--------------------------+
+| Tables_in_dailyfresh     |
++--------------------------+
+| auth_group               |
+| auth_group_permissions   |
+| auth_permission          |
+| df_address               |
+| df_goods                 |
+| df_goods_image           |
+| df_goods_sku             |
+| df_goods_type            |
+| df_index_banner          |
+| df_index_promotion       |
+| df_index_type_goods      |
+| df_order_goods           |
+| df_order_info            |
+| df_user                  |
+| df_user_groups           |
+| df_user_user_permissions |
+| django_admin_log         |
+| django_content_type      |
+| django_migrations        |
+| django_session           |
++--------------------------+
+
 ```
