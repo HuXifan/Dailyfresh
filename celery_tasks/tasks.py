@@ -82,7 +82,7 @@ def generate_static_index_html():
 
     # 2 模板渲染
     static_index_html = temp.render(context)  # 替换并返回
-    print(static_index_html)
+    # print(static_index_html)
 
     # 3 2是页面,3生成页面
     save_path = os.path.join(settings.BASE_DIR, 'static/index.html')
