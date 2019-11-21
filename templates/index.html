@@ -6,6 +6,7 @@
     <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/slide.js' %}"></script>
 {% endblock topfiles %}
+
 {% block body %}
     <div class="navbar_con">
         <div class="navbar">
@@ -26,23 +27,25 @@
                 <li><a href="#model0{{ forloop.counter }}" class="{{ type.logo }}">{{ type.name }}</a></li>
             {% endfor %}
         </ul>
+        {# 轮播商品展示 #}
         <div class="slide fl">
             <ul class="slide_pics">
                 {% for banner in goods_banners %}
-                    <li><a href="#"><img src="{{ banner.image.url }}" alt="幻灯片"></a></li>
+                    <li><a href="https://www.baidu.com"><img src="{{ banner.image.url }}" alt="幻灯片"></a></li>
                 {% endfor %}
             </ul>
             <div class="prev"></div>
             <div class="next"></div>
             <ul class="points"></ul>
         </div>
+        {#　促销商品展示 #}
         <div class="adv fl">
             {% for banner in promotion_banners %}
                 <a href="{{ banner.url }}"><img src="{{ banner.image.url }}"></a>
             {% endfor %}
         </div>
     </div>
-
+    {# 遍历types 显示分商品展示#}
     {% for type in types %}
         <div class="list_model">
             <div class="list_title clearfix">
