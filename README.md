@@ -271,6 +271,10 @@ AUTH_USER_MODEL = "users.User"
             'PATH': os.path.join(BASE_DIR, 'whoosh_index')
               }
         }
+- 页面数据的缓存
+    - 把页面使用的数据放在缓存中,当再次使用这些数据时先从缓存中获取,如果获取不到,再去查询数据库
+    - 作用: 减少数据库查询次数
+    - 当管理员修改首页信息对应数据表数据时需要更新缓存
 
 # 当添加、修改、删除数据时，自动生成索引
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
