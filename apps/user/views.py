@@ -379,7 +379,7 @@ class UserInfoView(LoginRequiredMixin, View):
         goods_li = []
         # 遍历获取用户浏览的商品信息
         for id in sku_ids:
-            goods = GoodsSKU.objects.filter(id=id)
+            goods = GoodsSKU.objects.get(id=id)
             goods_li.append(goods)
 
         # 组织上下文
