@@ -34,7 +34,6 @@ class GoodsAdmin(BaseModelAdmin):
     list_display_links = ('id', 'name')
     '''每页显示条目数'''
     list_per_page = 50
-    pass
 
 
 # 商品类型
@@ -70,7 +69,6 @@ class IndexGoodsBannerAdmin(BaseModelAdmin):
         return '%s' % obj.sku.name  # ☆
 
     sku_name.short_description = '商品名'
-    pass
 
 
 # 主页分类展示商品
