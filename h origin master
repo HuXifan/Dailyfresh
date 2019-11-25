@@ -1,0 +1,63 @@
+[33m586dd09ef725708822c4bc4477db556a676a9bf0[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m 浏览记录商品跳转详情页
+[33mc303c1aed9bc860ad7bbfac4e886508339cc1bf6[m 添加用户浏览记录
+[33m2d99a566a8c0c3a225449e8167441a9886665eac[m 添加用户浏览记录
+[33m0252dfc0b98008d0c5aa77263e75afae0de885bf[m[33m ([m[1;31morigin/master[m[33m)[m 修改首页,详情页
+[33mdd2e78f129d9616e6257edb78ed19681fe42ad2e[m 修改首页,详情页
+[33ma0bdd6748a9a7270ee3dd84f6573fd21ead3325f[m 修改Admin多字段显示
+[33ma39f3eaf021bfa905aeeba8c915ba86c43bf02ff[m 修改OrderGoods订单商品模型类评论默认为空
+[33mf185dd4a44e2e4c26646876bd2111071fce070cd[m 购物车商品数量显示
+[33mac33325d26962601e69a345a1a6b23ea0b0696e9[m update code
+[33mf6a725ea5a8dee8b94976c810ce316b3e7f46df2[m 设置页面缓存
+[33m7f47c04e43374899cb77682b1a4485f0260eee5c[m update README
+[33m007cce1d2ffbd909c2ad1c2a856f7205a8b6452d[m update README
+[33m0dde758ab46613628556e9b41b8857d43d6be67f[m update code
+[33m593cd27214fcd94d1107d4e4bec7f0f4a944abbb[m 更新README
+[33ma7cae1013c400f1d14259e041b5ab9f4c46b6eb1[m update code
+[33ma53f72d028cc2216ec134acae250f5f402535d98[m 管理页更新数据表重新生成静态页面
+[33me74221a6a8cd87084423174a4806331d4e82c75d[m 更换fdfs服务端,使用本机linux
+[33m2143ef36626b8e59bad1d18e85e1a8100fc245aa[m 更新配置
+[33mefc3f53e176b20fe94e802bf04f5afe341c224f4[m 修改task.py
+[33m0c065041b5cb7dcb32616bbc344c8c45ebb3feb4[m celery生成静态页面
+[33m9b7a38be17daede8cbfa17fd3f4868401837cd38[m 静态页面优化
+[33m06f357ea8af7319c13f9c27014b29914df7ae242[m 优化自定义文件存储类
+[33mbcf0b9631b6941f817b80c091d47b7e870acd4a8[m 测试文件存储类
+[33ma0b021cd444f6d724504bd389eec03c08c5d9e19[m 设置Django的文件存储类
+[33m13deb444ff9c282cd2bd54454022f6bfe1027f40[m 自定义文件存储类
+[33m7f7c1bb723e0f7ac17ab70afccd542a5ceba8ccb[m 更新安装库
+[33m3037b353c2ce61c50afdeebd4bc614f9b1893a5c[m 配置使用fdfs+nginx
+[33m056c1499da9e0911b4b055a64d0154ef29a29371[m 显示用户最近浏览记录
+[33ma0a1fa57b106dac7bd7f86f0b393c1528d20e761[m update README
+[33m7bc6901cc41a1727e745fc91224fc1123b875acb[m 封装查询默认地址方法,用户中心信息显示
+[33md277cd189c285f74ce60a5b1b4b0a94844ada8bc[m 添加地址,默认地址
+[33m4199703517f2131c1cef52ea640f05e0365ca5e6[m update code
+[33mf10b90c18906159e34250261c05c1d7abc462a24[m 实现用户退出跳转功能
+[33mcb9550bef37561f2c1e06bf94f7a2d774c1f811a[m 设计登出
+[33me4306fc4c289556a86ae3cd6da4f9cedb53e15f1[m 继承封装的类
+[33md836a6f4d939bad6f02606f2c79f999c2cb2366c[m 添加工具包,封装LoginRequired功能
+[33mb2eccb7037b522a25ffdd256a1e0fab6365db7bf[m update code
+[33m8461345af17e9dd8234aac4f2f8cdf0eb7432021[m 登录视图跳转
+[33md1d88017ddd9fe203d9ea097bf78ed9594b9af1f[m update code
+[33m71d58ec0e07704ec315aba04c0ca95e28f263faf[m update code
+[33mc542eec3585b16daa7dbf43a70f7e493e6515663[m 用户中心页面显示
+[33m4ac85942b6428dc6ddc668275fcd8d0c5a33257d[m 添加各页面模板文件
+[33mbe52865de0f475f2763e941f36b82d153a1b6489[m update code
+[33m9ac6dc0b2a90016d63a7eb66b826c8d60d67ae64[m 生成界面模板
+[33m115c123da7d2aa81f5aebafab7d207d61b64b541[m update requirement.txt
+[33mc7aebe1cef42b27c54923aa48146d5e8fdc6abfb[m 添加记住用户名功能
+[33md4cf24cec4c89a59a8967a7ec761f7d2d4f016cb[m 添加Django-redis的Settings配置
+[33m65ed47278131946538011436da0f88c0734d9b42[m 添加登录校验
+[33m5099e7784016921b657d1f2adfde17e98e991565[m 添加requirement.txt
+[33ma929237606c3ab1828bdc4b3f083fcc8e5dec7b2[m update code
+[33m3371deab64ca4e25d2d1e88779ec6666cfa73464[m 使用celery异步处理发送邮件过程
+[33m2b8dd70d8ee913d27acb0ba1a261ebc4855af35f[m 完成用户注册
+[33m61197111b4a280a5c5ed106aaa4586fdd137f294[m 添加注释
+[33meab1535ecbc43d9200eacf8e9eefc3b439a3db74[m 添加发送邮件验证功能
+[33mb3fa99309eb8a12c6e2e57a75fe4b8b7d2e29f0f[m 注册用户激活
+[33m9d71f72fae8d2649f0db2eaf81f4b79b4d7f485a[m 使用类视图代替判断函数
+[33m805af978c25f04f82b133cab956a32c8795bf1dd[m 请求方式判断是注册还是注册处理
+[33me1eefafb98d663c8ebf00633822ee9c0566b5cec[m 完成用户注册功能
+[33me75679605bc7b38f538e4abbf78b6dd9c3f27200[m 更新视图
+[33maba5dbe4644e9c6c859ef59eee2ce0edb38ee83e[m 数据库配置更新
+[33mbbd3982ddae3d01183f56f194c8bed8bb4f7498d[m 添加静态文件
+[33md40edb5d8fd330c1343fa02d2e6c8086b38a7ea6[m 编辑配置,模型类
+[33m72dd32813a687c2497ec4fcfd47950e4553e386f[m 初始化配置

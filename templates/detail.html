@@ -31,6 +31,15 @@
                     <a href="javascript:;" class="minus fr">-</a>
                 </div>
             </div>
+            <div>
+                <p>其他规格:</p>
+                <ul>
+                    {% for sku in same_spu_skus %}
+                        <li><a href="{% url 'goods:detail' sku.id %}"> {{ sku.name }}</a></li>
+                    {% endfor %}
+                </ul>
+
+            </div>
             <div class="total">总价：<em>16.80元</em></div>
             <div class="operate_btn">
                 <a href="javascript:;" class="buy_btn">立即购买</a>
@@ -71,9 +80,9 @@
             <div class="tab_content">
                 <dl>
                     {% for order in sku_orders %}
-                    <dt>评论时间：{{ order.update_time }}&nbsp;&nbsp;用户名:{{ order.order.user.username }}</dt>
-                    <dd>{{ order.comment }}</dd>
-                    {# 富文本编辑对象 关闭转移safe, 多个变量还可以使用autoescape on end autoescape #}
+                        <dt>评论时间：{{ order.update_time }}&nbsp;&nbsp;用户名:{{ order.order.user.username }}</dt>
+                        <dd>{{ order.comment }}</dd>
+                        {# 富文本编辑对象 关闭转移safe, 多个变量还可以使用autoescape on end autoescape #}
                     {% endfor %}
                 </dl>
             </div>
@@ -86,7 +95,7 @@
     <div class="add_jump"></div>
 {% endblock bottom %}
 {% block bottomfiles %}
-    <script type="text/javascript" src="js/jquery-1.12.2.js"></script>
+    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
     <script type="text/javascript">
         var $add_x = $('#add_cart').offset().top;
         var $add_y = $('#add_cart').offset().left;

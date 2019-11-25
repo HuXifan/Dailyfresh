@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.core.cache import cache
+from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.views.generic import View
 # 商品类型模型类,首页轮播商品展示模型类,首页促销活动模型类
-from goods.models import GoodsType, IndexGoodsBanner, IndexPromotionBanner, IndexTypeGoodsBanner
+from goods.models import GoodsType, GoodsSKU, IndexGoodsBanner, IndexPromotionBanner, IndexTypeGoodsBanner
+from order.models import OrderGoods
 from django_redis import get_redis_connection
 
 
@@ -54,7 +56,7 @@ class IndexView(View):
                        'goods_banners': goods_banners,
                        'promotion_banners': promotion_banners,
                        }
-            
+
             # 设置缓存 最基本的接口是 set(key, value, timeout) 和 get(key):
             cache.set('index_page_data', context, 3600)
 
@@ -74,3 +76,60 @@ class IndexView(View):
 
         # 使用模板, 传context
         return render(request, 'index.html', context)
+
+
+# /goods/商品id
+class DetailView(View):
+    '''详情页'''
+
+    def get(self, request, goods_id):
+        # 显示详情页
+        try:
+            sku = GoodsSKU.objects.get(id=goods_id)
+        except GoodsSKU.DoesNotExist:
+            # 商品id不存在
+            return render(reverse('goods:index'))
+
+        # 获取商品分类信息
+        types = GoodsType.objects.all()
+        # 获取商品评论信息
+        sku_orders = OrderGoods.objects.filter(sku=sku).exclude(comment='')  # sku等于查到的sku,exclude()排除满足条件的查询集
+
+        # 获取新品信息  # base_model 通用都有穿件和修改时间 根据时间 最新的就是最近的
+        new_skus = GoodsSKU.objects.filter(type=sku.type).order_by('-create_time')[:2]  # 新品取两个
+
+        # 获取同一SPU的其他规格的商品
+        same_spu_skus = GoodsSKU.objects.filter(goods=sku.goods).exclude(id=goods_id)  # 排除id相同的商品
+
+        # 获取用户购物车中商品的数目
+        user = request.user
+        cart_count = 0  # 初始化为0
+        # 先判断
+        if user.is_authenticated():
+            # 用户已登录
+            conn = get_redis_connection('default')
+            cart_key = 'cart_%d' % user.id
+            # 哈希值键的名字
+            cart_count = conn.hlen(cart_key)  # hlen 返回哈希集元素的数目
+
+            # 　添加用户的历史浏览记录
+            conn = get_redis_connection('default')
+            history_key = 'history_%d' % user.id
+            # 移出列表中的goods_id
+            conn.lrem(history_key, 0, goods_id)
+            # 插入goods_id到列表最左侧
+            conn.lpush(history_key, goods_id)
+            # 只保存用户最新浏览的五条纪录
+            conn.ltrim(history_key, 0, 4)
+
+        # 组织模板上下文
+        context = {
+            'sku': sku,
+            'types': types,
+            'sku_orders': sku_orders,
+            'new_skus': new_skus,
+            'same_spu_skus': same_spu_skus,
+            'cart_count': cart_count
+        }
+        # 使用模板
+        return render(request, 'detail.html', context)
