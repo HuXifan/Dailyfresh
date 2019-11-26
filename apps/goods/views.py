@@ -166,7 +166,7 @@ class ListView(View):
             skus = GoodsSKU.objects.filter(type=type).order_by('-id')
 
         # 对数据进行分页
-        paginator = Paginator(skus,1)
+        paginator = Paginator(skus, 1)
 
         # 获取第page页的内容
         try:
@@ -179,6 +179,22 @@ class ListView(View):
 
         # 获取第page页的Page实例对象
         skus_page = paginator.page(page)
+
+        # todo: 页码控制
+        # 总页数小于5页,全部显示页数
+        # 当前页是前三页,显示1-5页
+        # 当前页的后三页，显示后5页
+        # 其他情况，显示当前页的前两页当前页，当前页的后两页
+        # 总页数大于5页,显示前两页和后面两页
+        num_pages = paginator.num_pages
+        if num_pages < 5:
+            pages = range(1, num_pages + 1)
+        elif page <= 3:
+            pages = range(1, 6)
+        elif num_pages - page <= 2:
+            pages = range(num_pages - 4, num_pages + 1)
+        else:
+            pages = range(page - 2, page + 3)
 
         # 获取新品信息  # base_model 通用都有穿件和修改时间 根据时间 最新的就是最近的
         new_skus = GoodsSKU.objects.filter(type=type).order_by('-create_time')[:2]  # 新品取两个
@@ -201,7 +217,8 @@ class ListView(View):
             'skus_page': skus_page,
             'new_skus': new_skus,
             'cart_count': cart_count,
-            'sort': sort
+            'sort': sort,
+            'pages':pages
         }
         # 使用模板
         return render(request, 'list.html', context)
