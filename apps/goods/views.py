@@ -149,7 +149,7 @@ class ListView(View):
             type = GoodsType.objects.get(id=type_id)
         except GoodsType.DoesNotExist:
             # 种类不存在
-            return redirect(reverse('goods:"index'))
+            return redirect(reverse('goods:index'))
 
         # # 获取商品的分类信息
         types = GoodsType.objects.all()
@@ -160,13 +160,13 @@ class ListView(View):
         if sort == 'price':
             skus = GoodsSKU.objects.filter(type=type).order_by('price')  # 升序
         elif sort == 'hot':
-            skus = GoodsSKU.objects.filter(type=type).order_by('sales')
+            skus = GoodsSKU.objects.filter(type=type).order_by('-sales')
         else:
             sort = 'default'
             skus = GoodsSKU.objects.filter(type=type).order_by('-id')
 
         # 对数据进行分页
-        paginator = Paginator(skus, 22)
+        paginator = Paginator(skus,1)
 
         # 获取第page页的内容
         try:
