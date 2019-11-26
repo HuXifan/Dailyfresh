@@ -3,7 +3,7 @@ from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # 商品类型模型类,首页轮播商品展示模型类,首页促销活动模型类
 from goods.models import GoodsType, GoodsSKU, IndexGoodsBanner, IndexPromotionBanner, IndexTypeGoodsBanner
 from order.models import OrderGoods
@@ -151,7 +151,7 @@ class ListView(View):
             # 种类不存在
             return redirect(reverse('goods:index'))
 
-        # # 获取商品的分类信息
+        # 获取商品的分类信息
         types = GoodsType.objects.all()
         # print(type)
         # 获取排序方式
@@ -212,13 +212,13 @@ class ListView(View):
 
         # 组织模板上下文
         context = {
-            'type': type,
-            'types': types,
-            'skus_page': skus_page,
-            'new_skus': new_skus,
-            'cart_count': cart_count,
-            'sort': sort,
-            'pages':pages
+            'type': type,  # 种类信息
+            'types': types,  # 商品的分类信息
+            'skus_page': skus_page,  # 第page页的Page实例对象
+            'new_skus': new_skus,  # 新品
+            'cart_count': cart_count,  # 购物车数量
+            'sort': sort,  # 排序方式
+            'pages': pages  # 页码
         }
         # 使用模板
         return render(request, 'list.html', context)
