@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     # 'apps.order',
     # 'apps.user',
     'tinymce',  # 富文本编辑器
+    'haystack',  # 全文检索框架
     'user',  # 用户模块
     'goods',  # 商品模块
     'cart',  # 购物车模块
@@ -173,3 +174,16 @@ FDFS_CLIENT_CONF = './utils/fdfs/client.conf'
 # 设置FDFS的存储服服务器上的NginxIP和端口号
 FDFS_URL = "http://10.10.21.29:8888/"
 # FDFS_URL = "http://10.41.232.135:8888"
+
+# 　全文检索框架的配置
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        # 使用whoosh引擎 /home/huxf/.pyenv/versions/dj182/lib/python3.5/site-packages/haystack/backends
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        # 设置索引文件生成路径
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    }
+}
+
+# 当添加、修改、删除数据时，自动生成索引
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
