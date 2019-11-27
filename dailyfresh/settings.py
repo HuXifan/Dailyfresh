@@ -179,7 +179,7 @@ FDFS_URL = "http://10.10.21.29:8888/"
 HAYSTACK_CONNECTIONS = {
     'default': {
         # 使用whoosh引擎 /home/huxf/.pyenv/versions/dj182/lib/python3.5/site-packages/haystack/backends
-        # 'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        # 'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',  # 原始配置
         'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',  # 使用自定义的jieba分词的引擎
         # 设置索引文件生成路径
         'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
@@ -188,3 +188,5 @@ HAYSTACK_CONNECTIONS = {
 
 # 当添加、修改、删除数据时，自动生成索引
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+# 指定搜索结果每一页搜索条数
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 2
