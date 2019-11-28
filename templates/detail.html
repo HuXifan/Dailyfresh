@@ -39,10 +39,12 @@
                 </ul>
 
             </div>
-            <div class="total">总价：<em>999 元 </em></div>
+            <div class="total">总价：<em>0.01元 </em></div>
+            {% csrf_token %}
             <div class="operate_btn">
                 <a href="javascript:;" class="buy_btn">立即购买</a>
-                <a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>
+                {# 动态的给a标签 加了属性#}
+                <a href="javascript:;" sku_id="{{ sku.id }}" class="add_cart" id="add_cart">加入购物车</a>
             </div>
         </div>
     </div>
@@ -143,7 +145,7 @@
             // 获取用户输入的数目
             count = $(this).val()
             // 校验count是否合法  三种情况均设为1
-            if (isNaN(count) || count.trim().length==0 || parseInt(count) <=0){
+            if (isNaN(count) || count.trim().length == 0 || parseInt(count) <= 0) {
                 count = 1
             }
             // 重新设置商品的数目,只取整数
@@ -151,25 +153,44 @@
             // 更新商品的总价
             update_goods_amount()
         })
-
+        // 获取add_cart div元素左上角的坐标
         var $add_x = $('#add_cart').offset().top;
         var $add_y = $('#add_cart').offset().left;
 
         var $to_x = $('#show_count').offset().top;
         var $to_y = $('#show_count').offset().left;
 
-        $(".add_jump").css({'left': $add_y + 80, 'top': $add_x + 10, 'display': 'block'})
-        $('#add_cart').click(function () {
-            $(".add_jump").stop().animate({
-                    'left': $to_y + 7,
-                    'top': $to_x + 7
-                },
-                "fast", function () {
-                    $(".add_jump").fadeOut('fast', function () {
-                        $('#show_count').html(2);
-                    });
 
-                });
+        $('#add_cart').click(function () {
+            // 获取商品id和商品数量
+            sku_id = $(this).attr('sku_id')  //获取自定义属性attr 原有属性prop
+            count = $('.num_show').val()
+            {#alert(sku_id + ':' + count)#}
+            // <input type='hidden' name='csrfmiddlewaretoken' value='PJtbb4j2QJHMWht3KkJIrLEOAnsyfIW1' />
+            csrf = $('input[name="csrfmiddlewaretoken"]').val()
+            // 组织参数
+            params = {'sku_id': sku_id, 'count': count, 'csrfmiddlewaretoken': csrf}
+            // 发起Ajax post请求.访问cart/add, 传递参数sku_id,count
+            $.post('/cart/add', params, function (data) {
+                if (data.res == 5) {
+                    // 添加成功 演示动画
+                    $(".add_jump").css({'left': $add_y + 80, 'top': $add_x + 10, 'display': 'block'})
+                    $(".add_jump").stop().animate({
+                            'left': $to_y + 7,
+                            'top': $to_x + 7
+                        },
+                        "fast", function () {
+                            $(".add_jump").fadeOut('fast', function () {
+                                // 重新设置用户购物车商品条目数
+                                $('#show_count').html(data.total_count);
+                            });
+                        });
+                } else {
+                    //添加失败
+                    alert(data.errmsg)
+                }
+            })
+
         })
     </script>
 {% endblock bottomfiles %}
