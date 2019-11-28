@@ -259,7 +259,7 @@ AUTH_USER_MODEL = "users.User"
     `HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'`
     `# 指定搜索结果每一页搜索条数
     HAYSTACK_SEARCH_RESULTS_PER_PAGE = 2`
-    ```python
+    ```
     HAYSTACK_CONNECTIONS = {
     'default': {
         # 使用whoosh引擎 /home/huxf/.pyenv/versions/dj182/lib/python3.5/site-packages/haystack/backends
@@ -272,7 +272,80 @@ AUTH_USER_MODEL = "users.User"
     ```  
 ### 购物车模块开发
 - 添加到购物车
+    - 购物车后台视图函数:设计数据增删改查,(POST方法)
+        - 先判断用户是否登录
+        ```
+        user = request.user
+        # 判断用户有没有登录
+        if not user.is_authenticated():
+            return JsonResponse({'res': 0, 'errmsg': '请先登录'})
+        ```
+        - 接收数据,校验数据,加购,校验库存
+        ```
+        # 接收数据
+        sku_id = request.POST.get('sku_id')
+        count = request.POST.get('count')
+        # 数据校验
+        if not all([sku_id, count]):
+            return JsonResponse({'res': 1, 'errmsg': '数据不完整'})
+        # 校验添加的商品数量
+        try:
+            count = int(count)
+        except Exception as e:
+            # 数目出错
+            return JsonResponse({'res': 2, 'errmsg': '商品数目出错'})
+        # 校验商品是否存在
+        try:
+            sku = GoodsSKU.objects.get(id=sku_id)
+        except GoodsSKU.DoesNotExist:
+            # 商品不存在
+            return JsonResponse({'res': 3, 'errmsg': '商品不存在'})
+        # 业务处理:添加购物车记录
+        conn = get_redis_connection('default')
+        cart_key = 'cart_%d' % user.id
+        # 尝试获取sku_id的值 hget cart_key  属性
+        cart_count = conn.hget(cart_key, sku_id)  # 如果sku_id不存在 返回none
+        if cart_count:
+            # 有值 > 累加购物车数目
+            count += int(cart_count)
+        # 校验商品的库存
+        if count > sku.stock:
+            return JsonResponse({'res': 4, 'errmsg': '库存不足'})
+        # 设置hash中sku_id对应的值
+        conn.hset(cart_key, sku_id, count)  # hset 存在就是更新.不存在就是新增
+        # 计算用户购物车商品条目数
+        total_count = conn.hlen(cart_key)
+        # 返回应答
+        return JsonResponse({'res': 5, 'total_count': total_count, 'message': '添加购物车成功'})
 
+        ```
+    - 详情页面加购显示
+        - 设计计算商品总价函数
+        ```
+        function update_goods_amount() {
+            // 获取商品的单价和数量
+            price = $('.show_pirze').children('em').text()
+            count = $('.num_show').val()
+            // 计算商品的总价
+            price = parseFloat(price) // 转化小数
+            count = parseInt(count)
+            amount = price * count
+            // 设置商品的总价，toFixed(2) 保留两位小数
+            $('.total').children('em').text(amount.toFixed(2) + '元')
+        }
+        ```
+        - 增加,减少,手动,输入加购数量
+    - 注意点 <strong><em>csrf</em>
+        - django默认打开csrf中间件
+        - 表单post提交数据时加上{% csrf_token %} 标签
+        `// <input type='hidden' name='csrfmiddlewaretoken' value='PJtbb4j2QJHMWht3KkJIrLEOAnsyfIW1' />`
+        </br>` csrf = $('input[name="csrfmiddlewaretoken"]').val()`
+        - 防御原理:
+            - 渲染模板文件时在页面生成一个名字叫做 csrfmiddlewaretoken 的隐藏域.
+            - 服务器交给浏览器保存一个名字为 csrftoken的cookie信息
+            - 提交表单时,两个值都会发给服务器,服务器进行对比,如果一样,csrf验证通过,否则失败,报403错误.
+        
+            
 - 购物车页面
 
 - 购物车记录更新/删除
