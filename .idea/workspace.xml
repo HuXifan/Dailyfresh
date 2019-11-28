@@ -27,19 +27,19 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates/search" />
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/templates/search" />
       <recent name="$PROJECT_DIR$/templates" />
+      <recent name="$PROJECT_DIR$/templates/search" />
       <recent name="$PROJECT_DIR$/static" />
       <recent name="$PROJECT_DIR$/utils/fdfs" />
       <recent name="$PROJECT_DIR$" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/apps" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -156,7 +156,9 @@
       <workItem from="1574746692373" duration="8861000" />
       <workItem from="1574770738310" duration="8175000" />
       <workItem from="1574863344472" duration="652000" />
-      <workItem from="1574864646488" duration="516000" />
+      <workItem from="1574864646488" duration="617000" />
+      <workItem from="1574904560470" duration="787000" />
+      <workItem from="1574906237544" duration="24083000" />
     </task>
     <servers />
   </component>
