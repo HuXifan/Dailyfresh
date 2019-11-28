@@ -199,7 +199,7 @@ AUTH_USER_MODEL = "users.User"
     SESSION_CACHE_ALIAS = "default"
     ```
     - 登录判断装饰器loging_required
-    ```python
+    ```pytho        n
     from django.contrib.auth.decorators import login_required
     # 使用LoginRequireMixin：
     class LoginRequiredMixin(object):
@@ -241,46 +241,49 @@ AUTH_USER_MODEL = "users.User"
     - 把原本动态的页面处理结果保存成html文件，让用户直接访问这个生成出来的静态的html页面
     `①使用celery生成静态页面
     ②配置nginx提供静态页面
-    ③管理员修改首页所使用表中的数据时，重新生成index静态页面`
-- 商品搜索
-    - 搜索引擎:
-    1）可以对表中的某些字段进行关键词分析，简历关键词对应的索引数据。
-    索引：字典目录
-    全文检索框架：可以帮助用户使用搜索引擎。
-    用户----》全文检索框架haystack-----》搜索引擎whoosh
-    2） 搜索引擎的安装和配置
-    ```python
-      # 安装Python包
-      pip install django-haystack
-      pip install whoosh
-    ``` 
-    ```python
-      # 在settings.py文件中注册应用haystack并做如下配置：
-      INSTALLED_APPS = (
-	     'haystack', # 全文检索框架
-      )
-        .
-        .
-        .
-        .
-      # 全文检索框架的配置
-      HAYSTACK_CONNECTIONS = {
-        'default':{
-            # 使用whoosh引擎
-            'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',
-            'PATH': os.path.join(BASE_DIR, 'whoosh_index')
-              }
-        }
+    ③管理员修改首页所使用表中的数据时，重新生成index静态页面`  
+   
 - 页面数据的缓存
     - 把页面使用的数据放在缓存中,当再次使用这些数据时先从缓存中获取,如果获取不到,再去查询数据库
     - 作用: 减少数据库查询次数
     - 当管理员修改首页信息对应数据表数据时需要更新缓存
 
-# 当添加、修改、删除数据时，自动生成索引
-HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+### 商品搜索
+ - 搜索引擎:
+    1）可以对表中的某些字段进行关键词分析，简历关键词对应的索引数据。
+    索引：字典目录
+    全文检索框架：可以帮助用户使用搜索引擎。
+    用户----》全文检索框架haystack-----》搜索引擎whoosh
+ - 搜索引擎配置    
+    添加、修改、删除数据时，自动生成索引
+    `HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'`
+    `# 指定搜索结果每一页搜索条数
+    HAYSTACK_SEARCH_RESULTS_PER_PAGE = 2`
+    ```python
+    HAYSTACK_CONNECTIONS = {
+    'default': {
+        # 使用whoosh引擎 /home/huxf/.pyenv/versions/dj182/lib/python3.5/site-packages/haystack/backends
+        # 'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',  # 原始配置
+        'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',  # 使用自定义的jieba分词的引擎
+        # 设置索引文件生成路径
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+        }
+    }
+    ```  
+### 购物车模块开发
+- 添加到购物车
 
-    ```
-    
+- 购物车页面
+
+- 购物车记录更新/删除
+
+### 订单模块开发
+- 提交订单页面
+
+- 订单生成
+
+
+
 ## 注意点
 redis版本需要2.10.6 否则会报错,因为使用django的版本过低问题  
 如果使用乐观锁,需要修改mysql事务的隔离级别设置
@@ -295,7 +298,7 @@ redis版本需要2.10.6 否则会报错,因为使用django的版本过低问题
 |-- __init__.py
 |-- apps                        
 |   |-- __init__.py
-|   |-- cart                    
+|   |-- cart                            
 |   |   |-- __init__.py
 |   |   |-- __pycache__
 |   |   |-- admin.py
