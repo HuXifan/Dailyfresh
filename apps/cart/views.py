@@ -106,3 +106,54 @@ class CartInfoView(LoginRequiredMixin, View):
             'skus': skus
         }
         return render(request, 'cart.html', context)
+
+
+# 购物车前端的增加减少,需要更新记录
+# 采用Ajax post请求
+# 前端需要传递的参数:商品id(sku_id) 更新的商品数量(count)
+# /cart/update
+class CartUpdateView(View):
+    '''购物车记录更新'''
+
+    def post(self, request):
+        '''购物车记录更新'''
+        user = request.user
+        # 判断用户有没有登录
+        if not user.is_authenticated():
+            return JsonResponse({'res': 0, 'errmsg': '请先登录'})
+
+        # 接收数据
+        sku_id = request.POST.get('sku_id')
+        count = request.POST.get('count')
+
+        # 数据校验
+        if not all([sku_id, count]):
+            return JsonResponse({'res': 1, 'errmsg': '数据不完整'})
+        # 校验添加的商品数量
+        try:
+            count = int(count)
+        except Exception as e:
+            # 数目出错
+            return JsonResponse({'res': 2, 'errmsg': '商品数目出错'})
+
+        # 校验商品是否存在
+        try:
+            sku = GoodsSKU.objects.get(id=sku_id)
+        except GoodsSKU.DoesNotExist:
+            # 商品不存在
+            return JsonResponse({'res': 3, 'errmsg': '商品不存在'})
+
+        # 业务处理:更新购物车记录
+        # 建立链接
+        conn = get_redis_connection('default')
+        cart_key = 'cart_%d' % user.id
+
+        # 校验商品的库存
+        if count > sku.stock:
+            return JsonResponse({'res': 4, 'errmsg': '库存不足'})
+
+        # 更新
+        conn.hset(cart_key, sku_id, count)
+
+        # 返回应答
+        return JsonResponse({'res': 5, 'message': '更新购物车成功'})
