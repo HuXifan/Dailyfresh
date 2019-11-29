@@ -1,4 +1,5 @@
 {% extends 'base_no_cart.html' %}
+{% load staticfiles %}
 {% block title %}天天生鲜-购物车{% endblock %}
 {% block page_title %}购物车{% endblock page_title %}
 
@@ -37,7 +38,62 @@
         <li class="col03">合计(不含运费)：<span>¥</span><em>{{ total_price }}</em><br>共计<b>{{ total_count }}</b>件商品</li>
         <li class="col04"><a href="place_order.html">去结算</a></li>
     </ul>
-
-
-
 {% endblock body %}
+{% block bottomfiles %}
+    <script src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+    <script>
+        // 计算被选中商品的总件数和总价格
+
+
+        function update_page_info() {
+            total_count = 0
+            total_price = 0
+            // 1 获取所有被选中商品的checkbox   2 获取所有被选中的商品checkbox所在父级的ul
+            $('.cart_list_td').find(':checked').parents('ul').each(function () {
+                count = $(this).find('.num_show').val()  //数目
+                amount = $(this).children('.col07').text()  // 小计
+                // 累加总件数和小计
+                count = parseInt(count)
+                amount = parseFloat(amount)  //字符串取整
+                total_count += count
+                total_price += amount
+            })
+            // 设置被选中的商品的总件数和总价格
+            $('.settlements').find('em').text(total_price.toFixed(2))  //保留两位小数
+            $('.settlements').find('b').text(total_count)
+
+        }
+
+        // 商品的全选和全不要选
+        $('.settlements').find(':checkbox').change(function () {
+            // 获取全选的checkbox的选中状态
+            is_checked = $(this).prop('checked')
+            // 遍历商品对应的checkbook,设置这些checkbook的选中状态和全选CheckBox保持一致
+            $('.cart_list_td').find(':checkbox').each(function () {
+                $(this).prop('checked', is_checked)
+            })
+            update_page_info()  //调用方法 更新
+        })
+
+        // 商品对应的checkbox状态发生变化时,全选checkbox也需要改变
+        $('.cart_list_td').find(':checkbox').change(function () {
+            // 获取页面所有的商品的条目数目
+            all_len = $('.cart_list_td').length
+            // 获取被选中的商品的商品数目
+            checked_len = $('.cart_list_td').find(':checked').length
+            is_checked = true
+            if (checked_len < all_len) {
+                {#$('.settlements').find(':checkbox').prop('checked', false)#}
+                is_checked = false
+            }
+            $('.settlements').find(':checkbox').prop('checked', is_checked)
+
+            update_page_info()  //调用方法 更新
+        })
+    </script>
+{% endblock bottomfiles %}
+
+
+
+
+
