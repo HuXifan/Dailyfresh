@@ -59,6 +59,7 @@ class OrderPlaceView(LoginRequiredMixin, View):
         addrs = Address.objects.filter(user=user)
 
         # 组织上下文
+        sku_ids = ','.join(sku_ids)  # [1,25] -> 1,25
         context = {
             'skus': skus,
             'total_price': total_price,
