@@ -45,15 +45,15 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/templates" />
       <recent name="$PROJECT_DIR$/templates/search" />
       <recent name="$PROJECT_DIR$/static" />
       <recent name="$PROJECT_DIR$/utils/fdfs" />
       <recent name="$PROJECT_DIR$" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/apps" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -177,7 +177,10 @@
       <workItem from="1575024585025" duration="11950000" />
       <workItem from="1575095889494" duration="8471000" />
       <workItem from="1575119753134" duration="12016000" />
-      <workItem from="1575177324314" duration="3315000" />
+      <workItem from="1575177324314" duration="3368000" />
+      <workItem from="1575342705708" duration="2535000" />
+      <workItem from="1575349494119" duration="2417000" />
+      <workItem from="1575355475763" duration="7357000" />
     </task>
     <servers />
   </component>

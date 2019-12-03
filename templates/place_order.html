@@ -75,7 +75,7 @@
         <a href="javascript:;" sku_ids={{ sku_ids }} id="order_btn">提交订单</a>
     </div>
 
-{% endblock %}
+{% endblock body %}
 
 {% block bottom %}
     <div class="popup_con">
@@ -95,24 +95,19 @@
             pay_method = $('input[name="pay_style"]:checked').val()
             sku_ids = $(this).attr('sku_ids')
             csrf = $('input[name="csrfmiddlewaretoken"]').val()
-            alert(addr_id+":"+pay_method+":"+sku_ids)
+            alert(addr_id + ":" + pay_method + ":" + sku_ids)
             // 组织参数
-            params = {'addr_id':addr_id, 'pay_method':pay_method, 'sku_ids':sku_ids, 'csrfmiddlewaretoken':csrf}
-            // 发起Ajax post请求 访问order/commit, 床底参数: addr_id,pay_method, sku_ids
-            $.post('/order/commit',params, function (data) {
-                
+            params = {'addr_id': addr_id, 'pay_method': pay_method, 'sku_ids': sku_ids, 'csrfmiddlewaretoken': csrf}
+            // 发起Ajax post请求 访问order/commit, 传递参数: addr_id,pay_method, sku_ids
+            $.post('/order/commit', params, function (data) {
+                if (data.res == 5) {
+                    // 创建成功
+                    alert('创建成功')
+
+                } else {
+                    alert(data.errmsg)
+                }
             })
-            {#localStorage.setItem('order_finish', 2);#}
-            {##}
-            {#$('.popup_con').fadeIn('fast', function () {#}
-            {##}
-            {#    setTimeout(function () {#}
-            {#        $('.popup_con').fadeOut('fast', function () {#}
-            {#            window.location.href = 'index.html';#}
-            {#        });#}
-            {#    }, 3000)#}
-            {##}
-            //{#});#}
         });
     </script>
 {% endblock bottomfiles %}
