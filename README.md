@@ -358,9 +358,52 @@ AUTH_USER_MODEL = "users.User"
 
 ### 订单模块开发
 - 提交订单页面
-
+    - 模板变量:sku(动态追加商品小计,购买商品的数量),总价,总数量,运费,总支付款,收货地址
 - 订单生成
+    - 前端传递的参数:地址id,支付方式pay_method,用户要购买的商品id:sku_ids
+    - 向后台数据库添加记录
+      ```
+      order = OrderInfo.objects.create(order_id=order_id,
+                                         user=user, addr=addr,
+                                         pay_method=pay_method,
+                                         total_count=total_count,
+                                         total_price=total_price,
+                                         transit_price=transit_price)
+      ```
+      ```
+      for sku_id in sku_ids:
+        # 获取商品信息
+        try:
+            sku = GoodsSKU.objects.get(id=sku_id)
+        except:
+            return JsonResponse({'res': 4, 'errmsg': '商品不存在'})
 
+        # 从redis中获取用户索要购买的商品数量
+        count = conn.hget(cart_key, sku_id)
+
+        # 向df_order＿info添加几条记录,遍历,有几条就加几条记录
+        OrderGoods.objects.create(order=order,
+                                  sku=sku,
+                                  count=count,
+                                  price=sku.price)
+        # todo 更新商品的库存和销量
+        sku.stock -= int(count)
+        sku.sales += int(count)
+        sku.save()
+
+        # 累加计算订单商品的总数目 总价格
+        amount = sku.price * int(count)
+        total_count += int(count)
+        total_price += amount
+      ``` 
+      ```
+        # 出了循环外 更新订单信息表中的商品总数量和总价格
+        order.total_count = total_count
+        order.total_price = total_price
+        order.save()
+        # 清除购物车里用户购买过的商品记录
+        conn.hdel(cart_key, *sku_ids)
+      ```
 
 
 ## 注意点
