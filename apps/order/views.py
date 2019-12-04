@@ -18,7 +18,7 @@ class OrderPlaceView(LoginRequiredMixin, View):
         # 提交订单页面显示
         user = request.user
 
-        # 获取参数sku-ids
+        # 获取参数sku_ids
         sku_ids = request.POST.getlist('sku_ids')
 
         # 校验参数
@@ -37,7 +37,7 @@ class OrderPlaceView(LoginRequiredMixin, View):
         for sku_id in sku_ids:
             # 根据商品的id获取商品的信息
             sku = GoodsSKU.objects.get(id=sku_id)
-            # 获取用户索要购买商品数量
+            # 获取用户所要购买商品数量
             count = conn.hget(cart_key, sku_id)
             # 计算商品小计
             amount = sku.price * int(count)
@@ -45,7 +45,7 @@ class OrderPlaceView(LoginRequiredMixin, View):
             # 动态给sku增加属性,保存 购买商品的数量,购买商品的小计
             sku.count = count
             sku.amount = amount
-            # 追加
+            # 追加sku属性
             skus.append(sku)
             # 累计计算商品的总件数和总价格
             total_price += amount

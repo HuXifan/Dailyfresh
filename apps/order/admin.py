@@ -18,7 +18,7 @@ class OrderGoodsAdmin(admin.ModelAdmin):
     # 需要显示的字段信息
     list_display = ('order', 'sku', 'sku_name', 'count', 'price')
     # 设置哪些字段可以点击进入编辑界面，默认是第一个字段
-    list_display_links = ('order', 'sku')
+    list_display_links = ('order', 'sku', 'sku_name')
 
     def sku_name(self, obj):
         return '%s' % obj.sku.name  # ☆
