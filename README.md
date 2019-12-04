@@ -404,7 +404,36 @@ AUTH_USER_MODEL = "users.User"
         # 清除购物车里用户购买过的商品记录
         conn.hdel(cart_key, *sku_ids)
       ```
-
+    - Django中使用事务
+    原子性是由数据库的事务操作来界定的。atomic允许我们在执行代码块时，在数据库层面提供原子性保证。
+    如果代码块成功完成，相应的变化会被提交到数据库进行commit；如果有异常，则更改将回滚。
+        ```
+        from django.db import transaction    
+        @transaction.atomic
+        def viewfunc(request):        
+            do_stuff()
+        ```
+    - 悲观锁
+        - 冲突比较少的时候使用,乐观锁使用代价比较大的时候使用(数据库操作时间长)
+        ```
+        # select * from df_goods_sku where id=sku_id for update # 悲观锁
+        sku = GoodsSKU.objects.select_for_update().get(id=sku_id)
+        ```
+    - 乐观锁(冲突比较少的时候使用)
+        - 改变事务级别(Django1.8.2)
+        ```
+        # update df_goods_sku set stock=new_stock, sales=new_sales where id=sku_id and stock = origin_stock
+        # 返回受影响的行数
+        res = GoodsSKU.objects.filter(id=sku_id, stock=origin_stock).update(stock=new_stock,
+                                                                            sales=new_sales)
+        # 返回0 更新失败,返回1 更新成功
+        if res == 0:
+            if i == 4:
+                # 尝试的第五次都没有成功
+                transaction.rollback(save_id)
+                return JsonResponse({'res': 7, 'errmsg': '下单失败2'})
+        ```
+    
 
 ## 注意点
 redis版本需要2.10.6 否则会报错,因为使用django的版本(1.8.2)过低问题  
