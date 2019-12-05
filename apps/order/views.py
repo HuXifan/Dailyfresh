@@ -278,7 +278,7 @@ class OrderCommitView(View):
                     new_sales = sku.sales + int(count)
                     print('user:%d times:%d stock:%d' % (user.id, i, sku.stock))  # 打印成功的是谁
                     from time import sleep
-                    sleep(11)
+                    sleep(5)
                     # update df_goods_sku set stock=new_stock, sales=new_sales where id=sku_id and stock = origin_stock
                     # 返回受影响的行数
                     res = GoodsSKU.objects.filter(id=sku_id, stock=origin_stock).update(stock=new_stock,
