@@ -415,12 +415,14 @@ AUTH_USER_MODEL = "users.User"
         ```
     - 悲观锁
         - 冲突比较少的时候使用,乐观锁使用代价比较大的时候使用(数据库操作时间长)
+        - 特点:悲观锁获取数据时对数据行了锁定，其他事务要想获取锁，必须等原事务结束。
         ```
         # select * from df_goods_sku where id=sku_id for update # 悲观锁
         sku = GoodsSKU.objects.select_for_update().get(id=sku_id)
         ```
     - 乐观锁(冲突比较少的时候使用)
         - 改变事务级别(Django1.8.2)
+        - 特点:查询时不锁数据，提交更改时进行判断.
         ```
         # update df_goods_sku set stock=new_stock, sales=new_sales where id=sku_id and stock = origin_stock
         # 返回受影响的行数

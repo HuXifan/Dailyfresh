@@ -180,7 +180,6 @@ class ListView(View):
         # 获取第page页的Page实例对象
         skus_page = paginator.page(page)
 
-
         # 总页数小于5页,全部显示页数
         # 当前页是前三页,显示1-5页
         # 当前页的后三页，显示后5页

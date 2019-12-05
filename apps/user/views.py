@@ -418,7 +418,7 @@ class UserOrderView(LoginRequiredMixin, View):
 
 
         # 分页
-        paginator = Paginator(orders, 1)
+        paginator = Paginator(orders, 2)
         # 获取第page页的内容
         try:
             page = int(page)
@@ -445,8 +445,8 @@ class UserOrderView(LoginRequiredMixin, View):
         else:
             pages = range(page - 2, page + 3)
 
-        # 组织上下文
-        context = {'order_page': order_page, 'pages': pages, 'page': order}
+        # 组织上下文,使用模板
+        context = {'order_page': order_page, 'pages': pages, 'page': 'order'}
         return render(request, 'user_center_order.html', context)
 
 
