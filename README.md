@@ -36,26 +36,7 @@ python + django + mysql + redis + celery + FastDFS(分布式图片服务器) + n
         - [x] 查询支付结果
         - [x] 评论
 
-## 运行环境
 
-[配置环境文件](./configurationFile/images/fehelper-github-com-yuanwenq-dailyfresh-blob-dev-dailyfresh-settings-py-1544797232546.png)
-
-[虚拟环境安装和启动方式](configurationFile/virtualenvDescript.md)
-
-[celery分布式任务队列](configurationFile/celeryDescript.md)
-
-[redis环境安装](./configurationFile/redisDownload.md)
-
-[FastDFS安装和配置](./configurationFile/fastDFSDownload.md)
-
-[Nginx及fastdfs-nginx-module安装](./configurationFile/nginxAndFastDFS-nginx-moduleDownload.md)
-
-[全文检索引擎-生成jieba分词引擎步骤](./configurationFile/Full-textSearchEngine.md)
-
-[支付宝支付配置](https://github.com/fzlee/alipay/blob/master/README.zh-hans.md)
-
-[软件安装-云盘](https://pan.baidu.com/s/1NkK7VbeNBrbTPUeTxcYD6A)
-  
 - 项目启动：  
     - **注意: 项目启动前请先查看项目[配置环境文件](./configurationFile/images/fehelper-github-com-yuanwenq-dailyfresh-blob-dev-dailyfresh-settings-py-1544797232546.png),配置你相应的设置,并安装好各个环境,mysql+redis+nginx+fastDFS+celery等**
         ```
@@ -157,7 +138,7 @@ AUTH_USER_MODEL = "users.User"
      - 项目代码（任务发出者）—发出任务—>任务队列（中间人broker）redis<—监听任务队列—任务处理者worker
 - 用户激活
     - 使用itsdangerous加密用户身份信息
-    - ```python
+    - ```
         # 加密用户的身份信息，生成激活token
         serializer = Serializer(settings.SECRET_KEY, 3600)
         info = {'confirm':user.id}
@@ -165,7 +146,7 @@ AUTH_USER_MODEL = "users.User"
         token = token.decode()
         ```  
     - 解密用户身份信息
-        ```python
+        ```
         serializer = Serializer(settings.SECRET_KEY, 3600)
         try:
             # 根据秘钥解密
@@ -209,7 +190,7 @@ AUTH_USER_MODEL = "users.User"
             view = super(LoginRequiredMinxin, cls).as_view(**initkwargs)
             return login_required(view)
     ```
-    ```python
+    ```
     # 登陆后跳转 --> 获取登录后所需要跳转的地址
     # 默认跳转到首页
     next_url = request.GET.get('next', reverse('goods:index'))
@@ -435,7 +416,55 @@ AUTH_USER_MODEL = "users.User"
                 transaction.rollback(save_id)
                 return JsonResponse({'res': 7, 'errmsg': '下单失败2'})
         ```
-    
+  
+- 订单支付
+    - 支付宝接口调用
+    ```
+    app_private_key_string = open(os.path.join(settings.BASE_DIR, 'apps/order/app_private_key.pem')).read()
+    alipay_public_key_string = open(os.path.join(settings.BASE_DIR, 'apps/order/app_private_key.pem')).read()
+    alipay = AliPay(
+        appid="支付宝沙箱不可用...",
+        app_notify_url=None,  # 默认回调url,不传　不能写空
+        app_private_key_string=app_private_key_string,
+        # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
+        alipay_public_key_string=alipay_public_key_string,
+        sign_type="RSA2",  # RSA 或者 RSA2
+        debug=True,  # 默认False,True　访问沙箱
+    )
+    ```  
+   - 支付js
+    ```
+    <script>
+        $('.oper_btn').click(function () {
+            // 获取status
+            statuss = $(this).attr('status')
+            if (statuss == 1) {
+                // 进行支付
+                // 获取订单id
+                order_id = $(this).attr('order_id')
+                csrf = $('input[name="csrfmiddlewaretoken"]').val()
+                // 组织参数
+                params = {'order_id': order_id, 'csrfmiddlewaretoken': csrf}
+                // 发起Ajax post请求 访问/order/pay, 传递参数order_id, 返回data
+                $.post('/order/pay', params, function (data) {
+                    // 状态判断
+                    if (data.res == 3) {
+                        // 引导用户到支付页面
+                        window.open(data.pay_url)
+                        //  21:44:17]"POST /order/pay HTTP/1.1" 200 930
+
+                    } else {
+                        alert(data.errmsg)
+                    }
+                })
+
+            } else {
+                // 其他情况
+            }
+        })
+    </script>
+
+    ```
 
 ## 注意点
 redis版本需要2.10.6 否则会报错,因为使用django的版本(1.8.2)过低问题  
