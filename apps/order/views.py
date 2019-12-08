@@ -349,7 +349,7 @@ class OrderPayView(View):
         except OrderInfo.DoesNotExist:
             return JsonResponse({'res': 2, 'errmsg': '订单错误'})
 
-        # 业务处理:使用Python sdk调用支付宝的支付借口
+        # 业务处理:使用Python sdk调用支付宝的支付接口
         # 　初始化
         app_private_key_string = open(os.path.join(settings.BASE_DIR, 'apps/order/app_private_key.pem')).read()
         alipay_public_key_string = open(os.path.join(settings.BASE_DIR, 'apps/order/app_private_key.pem')).read()
