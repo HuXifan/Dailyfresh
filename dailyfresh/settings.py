@@ -25,9 +25,9 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))  # 加在第0个位置
 SECRET_KEY = '5u4*w&yyy!q-!zcnij8ss=fot0uz&6x)evb5y+0gth6skmd#3b'  # 配置项内部的秘钥
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
