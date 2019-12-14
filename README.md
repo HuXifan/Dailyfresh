@@ -517,159 +517,185 @@ redis版本需要2.10.6 否则会报错,因为使用django的版本(1.8.2)过低
 
 ## 项目布局
 ```
-|-- README.md
-|-- __init__.py
-|-- apps                        
-|   |-- __init__.py
-|   |-- cart                            
-|   |   |-- __init__.py
-|   |   |-- __pycache__
-|   |   |-- admin.py
-|   |   |-- migrations          
-|   |   |   |-- __init__.py
-|   |   |   `-- __pycache__
-|   |   |-- models.py
-|   |   |-- tests.py
-|   |   |-- urls.py
-|   |   `-- views.py
-|   |-- goods                   
-|   |   |-- __init__.py
-|   |   |-- __pycache__
-|   |   |-- admin.py
-|   |   |-- migrations
-|   |   |   |-- 0001_initial.py
-|   |   |   |-- __init__.py
-|   |   |   `-- __pycache__
-|   |   |       |-- 0001_initial.cpython-36.pyc
-|   |   |-- models.py
-|   |   |-- search_indexes.py
-|   |   |-- tests.py
-|   |   |-- urls.py
-|   |   `-- views.py
-|   |-- order
-|   |   |-- __init__.py
-|   |   |-- __pycache__
-|   |   |-- admin.py
-|   |   |-- alipay_public_key.pem
-|   |   |-- app_private_key.pem
-|   |   |-- migrations
-|   |   |   |-- 0001_initial.py
-|   |   |   |-- 0002_auto_20181126_1609.py
-|   |   |   |-- __init__.py
-|   |   |   `-- __pycache__
-|   |   |-- models.py
-|   |   |-- tests.py
-|   |   |-- urls.py
-|   |   `-- views.py
-|   `-- user
-|       |-- __init__.py
-|       |-- __pycache__
-|       |-- admin.py
-|       |-- migrations
-|       |   |-- 0001_initial.py
-|       |   |-- __init__.py
-|       |   `-- __pycache__
-|       |-- models.py
-|       |-- tests.py
-|       |-- urls.py
-|       `-- views.py
-|-- celery_tasks
-|   |-- __init__.py
-|   |-- __pycache__
-|   `-- tasks.py
-|-- configurationFile
-|   |-- Full-textSearchEngine.md
-|   |-- celeryDescript.md
-|   |-- conf
-|   |   |-- client.conf
-|   |   |-- mod_fastdfs.conf
-|   |   |-- nginx.conf
-|   |   |-- redis.conf
-|   |   |-- search.png
-|   |   |-- storage.conf
-|   |   |-- tracker.conf
-|   |   `-- whoosh_cn_backend.py
-|   |-- fastDFSDownload.md
-|   |-- images
-|   |-- nginxAndFastDFS-nginx-moduleDownload.md
-|   |-- redisDownload.md
-|   `-- virtualenvDescript.md
-|-- dailyfresh
-|   |-- __init__.py
-|   |-- __pycache__
-|   |-- settings.py
-|   |-- urls.py
-|   `-- wsgi.py
-|-- db
-|   |-- __init__.py
-|   |-- __pycache__
-|   `-- base_model.py
-|-- manage.py
-|-- mind.md
-|-- nginxConfig
-|-- requirements.txt
-|-- static
-|   |-- cart.html
-|   |-- css
-|   |-- detail.html
-|   |-- images
-|   |-- index.html
-|   |-- js
-|   |   |-- jquery-1.12.4.min.js
-|   |   |-- jquery-ui.min.js
-|   |   |-- jquery.cookie.js
-|   |   |-- register.js
-|   |   `-- slide.js
-|   |-- list.html
-|   |-- login.html
-|   |-- place_order.html
-|   |-- register.html
-|   |-- user_center_info.html
-|   |-- user_center_order.html
-|   `-- user_center_site.html
-|-- templates
-|   |-- base.html
-|   |-- base_detail_list.html
-|   |-- base_no_cart.html
-|   |-- base_user_center.html
-|   |-- cart.html
-|   |-- detail.html
-|   |-- index.html
-|   |-- list.html
-|   |-- login.html
-|   |-- order_comment.html
-|   |-- place_order.html
-|   |-- register.html
-|   |-- search
-|   |   |-- indexes
-|   |   |   `-- goods
-|   |   |       `-- goodssku_text.txt
-|   |   |-- search.html
-|   |   `-- search1.html
-|   |-- static_base.html
-|   |-- static_index.html
-|   |-- user_center_info.html
-|   |-- user_center_order.html
-|   `-- user_center_site.html
-|-- utils
-|   |-- __init__.py
-|   |-- __pycache__
-|   |-- fdfs
-|   |   |-- __init__.py
-|   |   |-- __pycache__
-|   |   |-- client.conf
-|   |   `-- storage.py
-|   `-- mixin.py
-|-- uwsgi
-|-- uwsgi.log
-|-- uwsgi.pid
-|-- uwsgi2
-|-- uwsgi2.log
-|-- uwsgi2.pid
-`-- whoosh_index                    
-    |-- MAIN_WRITELOCK
-    |-- MAIN_o1a38vfacpcxkfgw.seg
-    `-- _MAIN_11.toc
+  ├── apps
+│   ├── cart
+│   │   ├── admin.py
+│   │   ├── __init__.py
+│   │   ├── migrations
+│   │   │   ├── __init__.py
+│   │   │   └── __pycache__
+│   │   │       └── __init__.cpython-35.pyc
+│   │   ├── models.py
+│   │   ├── __pycache__
+│   │   │   ├── admin.cpython-35.pyc
+│   │   │   ├── __init__.cpython-35.pyc
+│   │   │   ├── __init__.cpython-37.pyc
+│   │   │   ├── models.cpython-35.pyc
+│   │   │   ├── urls.cpython-35.pyc
+│   │   │   └── views.cpython-35.pyc
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── goods
+│   │   ├── admin.py
+│   │   ├── __init__.py
+│   │   ├── migrations
+│   │   │   ├── 0001_initial.py
+│   │   │   ├── __init__.py
+│   │   │   └── __pycache__
+│   │   │       ├── 0001_initial.cpython-35.pyc
+│   │   │       └── __init__.cpython-35.pyc
+│   │   ├── models.py
+│   │   ├── __pycache__
+│   │   │   ├── admin.cpython-35.pyc
+│   │   │   ├── __init__.cpython-35.pyc
+│   │   │   ├── __init__.cpython-37.pyc
+│   │   │   ├── models.cpython-35.pyc
+│   │   │   ├── search_indexes.cpython-35.pyc
+│   │   │   ├── urls.cpython-35.pyc
+│   │   │   └── views.cpython-35.pyc
+│   │   ├── search_indexes.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── __init__.py
+│   ├── order
+│   │   ├── admin.py
+│   │   ├── alipay_public_key.pem
+│   │   ├── app_private_key.pem
+│   │   ├── __init__.py
+│   │   ├── migrations
+│   │   │   ├── 0001_initial.py
+│   │   │   ├── 0002_auto_20191105_1131.py
+│   │   │   ├── __init__.py
+│   │   │   └── __pycache__
+│   │   │       ├── 0001_initial.cpython-35.pyc
+│   │   │       ├── 0002_auto_20191105_1131.cpython-35.pyc
+│   │   │       └── __init__.cpython-35.pyc
+│   │   ├── models.py
+│   │   ├── __pycache__
+│   │   │   ├── admin.cpython-35.pyc
+│   │   │   ├── __init__.cpython-35.pyc
+│   │   │   ├── __init__.cpython-37.pyc
+│   │   │   ├── models.cpython-35.pyc
+│   │   │   ├── urls.cpython-35.pyc
+│   │   │   └── views.cpython-35.pyc
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── __pycache__
+│   │   └── __init__.cpython-35.pyc
+│   └── user
+│       ├── admin.py
+│       ├── __init__.py
+│       ├── migrations
+│       │   ├── 0001_initial.py
+│       │   ├── __init__.py
+│       │   └── __pycache__
+│       │       ├── 0001_initial.cpython-35.pyc
+│       │       └── __init__.cpython-35.pyc
+│       ├── models.py
+│       ├── __pycache__
+│       │   ├── admin.cpython-35.pyc
+│       │   ├── __init__.cpython-35.pyc
+│       │   ├── __init__.cpython-37.pyc
+│       │   ├── models.cpython-35.pyc
+│       │   ├── urls.cpython-35.pyc
+│       │   └── views.cpython-35.pyc
+│       ├── tests.py
+│       ├── urls.py
+│       └── views.py
+├── celery_tasks
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-35.pyc
+│   │   └── tasks.cpython-35.pyc
+│   └── tasks.py
+├── dailyfresh
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-35.pyc
+│   │   ├── __init__.cpython-37.pyc
+│   │   ├── settings.cpython-35.pyc
+│   │   ├── settings.cpython-37.pyc
+│   │   ├── urls.cpython-35.pyc
+│   │   ├── urls.cpython-37.pyc
+│   │   └── wsgi.cpython-35.pyc
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── db
+│   ├── base_model.py
+│   ├── __init__.py
+│   └── __pycache__
+│       ├── base_model.cpython-35.pyc
+│       └── __init__.cpython-35.pyc
+├── demo.html
+├── dump.rdb
+├── fdfs_demo.py
+├── manage.py
+├── __pycache__
+│   └── manage.cpython-35.pyc
+├── README.md
+├── requirement.txt
+├── static
+├── static_root
+├── temp-6864.rdb
+├── temp-7318.rdb
+├── temp-9573.rdb
+├── templates
+├── temp-6864.rdb
+├── temp-7318.rdb
+├── temp-9573.rdb
+├── templates
+│   ├── base_detail_list.html
+│   ├── base.html
+│   ├── base_no_cart.html
+│   ├── base_user_center.html
+│   ├── cart.html
+│   ├── detail.html
+│   ├── index.html
+│   ├── __init__.py
+│   ├── list.html
+│   ├── login.html
+│   ├── place_order6.html
+│   ├── place_order.html
+│   ├── register.html
+│   ├── search
+│   │   ├── indexes
+│   │   │   └── goods
+│   │   │       └── goodssku_text.txt
+│   │   ├── search1.html
+│   │   └── search.html
+│   ├── static_base.html
+│   ├── static_index.html
+│   ├── user_center_info.html
+│   ├── user_center_order.html
+│   └── user_center_site.html
+├── utils
+│   ├── fdfs
+│   │   ├── client.conf
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-35.pyc
+│   │   │   └── storage.cpython-35.pyc
+│   │   └── storage.py
+│   ├── __init__.py
+│   ├── mixin.py
+│   └── __pycache__
+│       ├── __init__.cpython-35.pyc
+│       └── mixin.cpython-35.pyc
+├── uwsgi2.ini
+├── uwsgi2.log
+├── uwsgi2.pid
+├── uwsgi.ini
+├── uwsgi.log
+├── uwsgi.pid
+└── whoosh_index
+    ├── _MAIN_21.toc
+    ├── MAIN_vedvannehnv0pkzh.seg
+    └── MAIN_WRITELOCK
+
 ```
 
 ## mysql数据库展示
