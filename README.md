@@ -466,6 +466,47 @@ AUTH_USER_MODEL = "users.User"
 
     ```
 
+## 项目部署
+- uwsgi
+    - uwsgi配置　　
+    ```
+    DEBUG=FALSE
+    ALLOWED_HOSTS=[‘*’] 
+    ```
+    - uwsgi.ini  
+    ```
+    [uwsgi]
+    #使用nginx连接时使用
+    socket=127.0.0.1:8080
+    #直接做web服务器使用 = python manage.py runserver ip:port
+    ;http=127.0.0.1:8080
+    #项目目录
+    chdir=/home/huxf/Dj18/dailyfresh
+    #项目中wsgi.py文件的目录，相对于项目目录
+    wsgi-file=dailyfresh/wsgi.py
+    # 指定启动的工作进程数 4()
+    processes=4
+    # 指定启动的工作进程中的线程数
+    threads=2
+    # 主进程
+    master=True
+    # 保存启动后的主进程的pid进程号
+    pidfile=uwsgi.pid
+    # 设置uwsgi后台运行,uwsgi.log保存日志信息
+    daemonize=uwsgi.log
+    # 设置虚拟环境的路径
+    virtualenv=/home/huxf/.pyenv/versions/dj182
+
+    ```
+    - nginx 转发请求给uwsgi
+    ```
+    location / {
+	include uwsgi_params;
+	uwsgi_pass uwsgi服务器的ip:port;
+    }
+    ```
+   - 收集静态文件
+   `python manage.py collectstatic`  
 ## 注意点
 redis版本需要2.10.6 否则会报错,因为使用django的版本(1.8.2)过低问题  
 如果使用乐观锁,需要修改mysql事务的隔离级别设置
