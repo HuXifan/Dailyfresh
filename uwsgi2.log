@@ -1,0 +1,59 @@
+*** Starting uWSGI 2.0.18 (64bit) on [Sat Dec 14 16:06:30 2019] ***
+compiled with version: 7.3.0 on 12 December 2019 02:25:55
+os: Linux-4.15.0-29deepin-generic #31 SMP Fri Jul 27 07:12:08 UTC 2018
+nodename: deepin
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 4
+current working directory: /home/huxf/Dj18/dailyfresh
+writing pidfile to uwsgi2.pid
+detected binary path: /home/huxf/.pyenv/versions/3.5.3/envs/dj182/bin/uwsgi
+chdir() to /home/huxf/Dj18/dailyfresh
+your processes number limit is 23300
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:8081 fd 3
+Python version: 3.5.3 (default, Nov  1 2019, 17:11:10)  [GCC 7.3.0]
+PEP 405 virtualenv detected: /home/huxf/.pyenv/versions/dj182
+Set PythonHome to /home/huxf/.pyenv/versions/dj182
+Python main interpreter initialized at 0x559a2fb67ea0
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 416880 bytes (407 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 5 seconds on interpreter 0x559a2fb67ea0 pid: 16380 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 16380)
+spawned uWSGI worker 1 (pid: 16385, cores: 2)
+spawned uWSGI worker 2 (pid: 16387, cores: 2)
+spawned uWSGI worker 3 (pid: 16388, cores: 2)
+spawned uWSGI worker 4 (pid: 16390, cores: 2)
+*** Starting uWSGI 2.0.18 (64bit) on [Sat Dec 14 16:06:59 2019] ***
+compiled with version: 7.3.0 on 12 December 2019 02:25:55
+os: Linux-4.15.0-29deepin-generic #31 SMP Fri Jul 27 07:12:08 UTC 2018
+nodename: deepin
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 4
+current working directory: /home/huxf/Dj18/dailyfresh
+writing pidfile to uwsgi2.pid
+detected binary path: /home/huxf/.pyenv/versions/3.5.3/envs/dj182/bin/uwsgi
+chdir() to /home/huxf/Dj18/dailyfresh
+your processes number limit is 23300
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8081).
+bind(): Address already in use [core/socket.c line 769]
+设置缓存
+[pid: 16390|app: 0|req: 1/1] 127.0.0.1 () {42 vars in 832 bytes} [Sat Dec 14 16:13:43 2019] GET /index => generated 14499 bytes in 3954 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 16390|app: 0|req: 2/2] 127.0.0.1 () {42 vars in 833 bytes} [Sat Dec 14 16:14:04 2019] GET /index => generated 14499 bytes in 171 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 1)
+[pid: 16388|app: 0|req: 1/3] 127.0.0.1 () {42 vars in 833 bytes} [Sat Dec 14 16:15:05 2019] GET /index => generated 14499 bytes in 1811 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 16388|app: 0|req: 2/4] 127.0.0.1 () {42 vars in 824 bytes} [Sat Dec 14 16:15:14 2019] GET /index => generated 14499 bytes in 197 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 1)
+[pid: 16390|app: 0|req: 3/5] 127.0.0.1 () {42 vars in 832 bytes} [Sat Dec 14 16:15:25 2019] GET /index => generated 14499 bytes in 162 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 0)

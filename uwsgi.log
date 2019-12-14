@@ -145,3 +145,104 @@ invalid request block size: 21573 (max 4096)...skip
 [pid: 26376|app: 0|req: 19/33] 127.0.0.1 () {44 vars in 876 bytes} [Sat Dec 14 09:49:34 2019] GET /goods/index => generated 14495 bytes in 150 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 1)
 [pid: 26375|app: 0|req: 13/34] 127.0.0.1 () {42 vars in 830 bytes} [Sat Dec 14 09:49:35 2019] GET /index => generated 14495 bytes in 83 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 0)
 [pid: 26375|app: 0|req: 14/35] 127.0.0.1 () {42 vars in 824 bytes} [Sat Dec 14 09:49:37 2019] GET /index => generated 14495 bytes in 104 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 1)
+[pid: 26373|app: 0|req: 3/36] 127.0.0.1 () {42 vars in 840 bytes} [Sat Dec 14 14:53:51 2019] GET /goods/goods/7 => generated 10470 bytes in 3516 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 1)
+设置缓存
+[pid: 26376|app: 0|req: 20/37] 127.0.0.1 () {42 vars in 844 bytes} [Sat Dec 14 14:55:53 2019] GET /goods/index => generated 14495 bytes in 1390 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 26376|app: 0|req: 21/38] 127.0.0.1 () {42 vars in 842 bytes} [Sat Dec 14 14:55:57 2019] GET /goods/index => generated 14495 bytes in 3198 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 1)
+[pid: 26375|app: 0|req: 15/39] 127.0.0.1 () {42 vars in 842 bytes} [Sat Dec 14 14:56:01 2019] GET /goods/index => generated 14495 bytes in 2880 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 26376|app: 0|req: 22/40] 127.0.0.1 () {42 vars in 846 bytes} [Sat Dec 14 14:56:08 2019] GET /goods/goods/1 => generated 10848 bytes in 132 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 0)
+[pid: 26376|app: 0|req: 23/41] 127.0.0.1 () {44 vars in 877 bytes} [Sat Dec 14 14:56:47 2019] GET /goods/goods/1 => generated 10846 bytes in 169 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 1)
+[pid: 26375|app: 0|req: 16/42] 127.0.0.1 () {42 vars in 832 bytes} [Sat Dec 14 14:56:48 2019] GET /index => generated 14495 bytes in 249 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 1)
+[pid: 26375|app: 0|req: 17/43] 127.0.0.1 () {40 vars in 776 bytes} [Sat Dec 14 15:10:44 2019] GET / => generated 74 bytes in 371 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 26373|app: 0|req: 4/44] 127.0.0.1 () {40 vars in 786 bytes} [Sat Dec 14 15:30:25 2019] GET /index => generated 14495 bytes in 5964 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 1)
+[pid: 26376|app: 0|req: 24/45] 127.0.0.1 () {42 vars in 817 bytes} [Sat Dec 14 15:30:37 2019] GET /index => generated 14495 bytes in 910 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 1)
+[pid: 26376|app: 0|req: 25/46] 127.0.0.1 () {42 vars in 824 bytes} [Sat Dec 14 15:30:40 2019] GET /index => generated 14495 bytes in 524 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 26371|app: 0|req: 1/47] 127.0.0.1 () {40 vars in 786 bytes} [Sat Dec 14 15:30:09 2019] GET /index => generated 14495 bytes in 31727 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 26376|app: 0|req: 26/48] 127.0.0.1 () {42 vars in 840 bytes} [Sat Dec 14 15:30:42 2019] GET /goods/goods/1 => generated 10846 bytes in 774 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 1)
+[pid: 26375|app: 0|req: 18/49] 10.10.21.29 () {40 vars in 779 bytes} [Sat Dec 14 15:33:15 2019] GET /66 => generated 76 bytes in 138 msecs (HTTP/1.0 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 26376|app: 0|req: 27/50] 10.10.21.29 () {40 vars in 779 bytes} [Sat Dec 14 15:33:48 2019] GET /nn => generated 76 bytes in 38 msecs (HTTP/1.0 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 26376|app: 0|req: 28/51] 10.10.21.29 () {42 vars in 810 bytes} [Sat Dec 14 15:33:51 2019] GET /nn => generated 76 bytes in 2 msecs (HTTP/1.0 404) 2 headers in 80 bytes (1 switches on core 1)
+[pid: 26375|app: 0|req: 19/52] 10.10.21.29 () {42 vars in 810 bytes} [Sat Dec 14 15:33:52 2019] GET /nn => generated 76 bytes in 2 msecs (HTTP/1.0 404) 2 headers in 80 bytes (1 switches on core 1)
+[pid: 26376|app: 0|req: 29/53] 10.10.21.29 () {42 vars in 810 bytes} [Sat Dec 14 15:33:52 2019] GET /nn => generated 76 bytes in 1 msecs (HTTP/1.0 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 26376|app: 0|req: 30/54] 10.10.21.29 () {42 vars in 810 bytes} [Sat Dec 14 15:33:53 2019] GET /nn => generated 76 bytes in 1 msecs (HTTP/1.0 404) 2 headers in 80 bytes (1 switches on core 1)
+[pid: 26376|app: 0|req: 31/55] 10.10.21.29 () {42 vars in 810 bytes} [Sat Dec 14 15:33:53 2019] GET /nn => generated 76 bytes in 1 msecs (HTTP/1.0 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 26376|app: 0|req: 32/56] 127.0.0.1 () {40 vars in 786 bytes} [Sat Dec 14 15:35:49 2019] GET /index => generated 14495 bytes in 883 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 1)
+[pid: 26376|app: 0|req: 33/57] 127.0.0.1 () {42 vars in 842 bytes} [Sat Dec 14 15:35:53 2019] GET /goods/goods/11 => generated 10818 bytes in 377 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 0)
+[pid: 26376|app: 0|req: 34/58] 10.10.21.29 () {40 vars in 775 bytes} [Sat Dec 14 15:36:00 2019] GET / => generated 74 bytes in 1 msecs (HTTP/1.0 404) 2 headers in 80 bytes (1 switches on core 1)
+[pid: 26376|app: 0|req: 35/59] 10.10.21.29 () {42 vars in 806 bytes} [Sat Dec 14 15:36:38 2019] GET / => generated 74 bytes in 1 msecs (HTTP/1.0 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 26375|app: 0|req: 20/60] 127.0.0.1 () {40 vars in 786 bytes} [Sat Dec 14 15:37:14 2019] GET /login => generated 79 bytes in 2 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 0)
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+invalid request block size: 21573 (max 4096)...skip
+[pid: 26376|app: 0|req: 36/61] 127.0.0.1 () {40 vars in 786 bytes} [Sat Dec 14 15:37:49 2019] GET /login => generated 79 bytes in 2 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 1)
+[pid: 26376|app: 0|req: 37/62] 127.0.0.1 () {40 vars in 786 bytes} [Sat Dec 14 15:37:55 2019] GET /index => generated 14495 bytes in 302 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 26376|app: 0|req: 38/63] 127.0.0.1 () {42 vars in 836 bytes} [Sat Dec 14 15:37:59 2019] GET /user/logout => generated 0 bytes in 87 msecs (HTTP/1.1 302) 4 headers in 216 bytes (1 switches on core 1)
+[pid: 26376|app: 0|req: 39/64] 127.0.0.1 () {42 vars in 792 bytes} [Sat Dec 14 15:37:59 2019] GET /goods/index => generated 14499 bytes in 344 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 26376|app: 0|req: 40/65] 127.0.0.1 () {42 vars in 796 bytes} [Sat Dec 14 15:38:02 2019] GET /user/login => generated 3431 bytes in 43 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 1)
+User is valid, active and authenticated
+[pid: 26376|app: 0|req: 41/66] 127.0.0.1 () {50 vars in 972 bytes} [Sat Dec 14 15:38:08 2019] POST /user/login => generated 0 bytes in 1226 msecs (HTTP/1.1 302) 7 headers in 491 bytes (1 switches on core 0)
+[pid: 26376|app: 0|req: 42/67] 127.0.0.1 () {44 vars in 872 bytes} [Sat Dec 14 15:38:09 2019] GET /goods/index => generated 14499 bytes in 375 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 1)
+[pid: 26376|app: 0|req: 43/68] 127.0.0.1 () {40 vars in 796 bytes} [Sat Dec 14 15:38:24 2019] GET /user/login => generated 3431 bytes in 165 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 0)
+User is valid, active and authenticated
+[pid: 26376|app: 0|req: 44/69] 127.0.0.1 () {50 vars in 1016 bytes} [Sat Dec 14 15:38:28 2019] POST /user/login => generated 0 bytes in 285 msecs (HTTP/1.1 302) 7 headers in 491 bytes (1 switches on core 1)
+[pid: 26375|app: 0|req: 21/70] 127.0.0.1 () {44 vars in 872 bytes} [Sat Dec 14 15:38:29 2019] GET /goods/index => generated 14499 bytes in 139 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 26373|app: 0|req: 5/71] 127.0.0.1 () {42 vars in 846 bytes} [Sat Dec 14 16:12:23 2019] GET /goods/goods/1 => generated 10850 bytes in 1545 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 0)
+[pid: 26376|app: 0|req: 45/72] 127.0.0.1 () {42 vars in 842 bytes} [Sat Dec 14 16:13:58 2019] GET /goods/goods/10 => generated 10727 bytes in 362 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 0)
+[pid: 26376|app: 0|req: 46/73] 127.0.0.1 () {42 vars in 842 bytes} [Sat Dec 14 16:14:11 2019] GET /goods/goods/11 => generated 10822 bytes in 120 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 1)
+[pid: 26375|app: 0|req: 22/74] 127.0.0.1 () {42 vars in 824 bytes} [Sat Dec 14 16:15:10 2019] GET /index => generated 14499 bytes in 404 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 1)
+[pid: 26376|app: 0|req: 47/75] 127.0.0.1 () {42 vars in 840 bytes} [Sat Dec 14 16:15:18 2019] GET /goods/goods/1 => generated 10850 bytes in 98 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 0)
+[pid: 26376|app: 0|req: 48/76] 127.0.0.1 () {42 vars in 824 bytes} [Sat Dec 14 16:15:27 2019] GET /index => generated 14499 bytes in 144 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 1)
