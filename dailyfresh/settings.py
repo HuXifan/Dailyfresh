@@ -38,10 +38,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'apps.goods',
-    # 'apps.cart',
-    # 'apps.order',
-    # 'apps.user',
     'tinymce',  # 富文本编辑器
     'haystack',  # 全文检索框架
     'user',  # 用户模块
@@ -96,7 +92,7 @@ DATABASES = {
     }
 }
 
-# 指定 Django认证系统使用的模型类
+# 指定 Django认证系统使用的模型类,AUTH_USER_MODEL配置参数要在第一次迁移数据库之前配置，否则可能django的认证系统工作不正常
 AUTH_USER_MODEL = 'user.User'  # 如果不指定,django会使用默认的模型类
 # 指定后,不再生成auth_user的表,而是生成我们对应的user的表
 

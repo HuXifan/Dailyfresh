@@ -246,3 +246,4 @@ User is valid, active and authenticated
 [pid: 26375|app: 0|req: 22/74] 127.0.0.1 () {42 vars in 824 bytes} [Sat Dec 14 16:15:10 2019] GET /index => generated 14499 bytes in 404 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 1)
 [pid: 26376|app: 0|req: 47/75] 127.0.0.1 () {42 vars in 840 bytes} [Sat Dec 14 16:15:18 2019] GET /goods/goods/1 => generated 10850 bytes in 98 msecs (HTTP/1.1 200) 4 headers in 224 bytes (1 switches on core 0)
 [pid: 26376|app: 0|req: 48/76] 127.0.0.1 () {42 vars in 824 bytes} [Sat Dec 14 16:15:27 2019] GET /index => generated 14499 bytes in 144 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 1)
+...brutally killing workers...

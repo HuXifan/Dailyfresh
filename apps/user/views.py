@@ -3,7 +3,6 @@ import redis
 from redis import StrictRedis
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-# from django.urls import reverse
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
 from django.core.mail import send_mail  # 发送邮件函数
@@ -15,7 +14,7 @@ from django.conf import settings
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer  # 帮助实现加密
 from itsdangerous import SignatureExpired  # 异常
 from celery_tasks.tasks import send_register_active_email  # 导入发送邮件任务函数
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout  # 用户认证　登录　登出　Django
 from utils.mixin import LoginRequiredMixin
 from django_redis import get_redis_connection
 
@@ -33,7 +32,7 @@ def register(request):
         username = request.POST.get('user_name')
         password = request.POST.get('pwd')
         email = request.POST.get('email')
-        cpwd = request.POST.get('cpwd')
+        cpwd = request.POST.get('cpwd')  # 确认密码
         allow = request.POST.get('allow')
 
         # 进行数据校验  # 可迭代的东西
@@ -41,16 +40,17 @@ def register(request):
         try:
             user = User.objects.get(username=username)  # get会查到一条进一条查不到会
         except User.DoesNotExist:
-            # 抛异常用户名不存在
+            # 抛异常用户名不存在,未注册
             user = None
         if user:
             # 用户名已经存在
             return render(request, 'register.html', {'errmsg': '该用户名已被注册'})
 
+        # 验证数据完整性
         if not all([username, password, email]):
             # 数据不完整
             return render(request, 'register.html', {'errmsg': '注册数据不完整!'})
-        # 校验邮箱
+        # 校验邮箱有效合法
         if not re.match(r'^[a-z0-9][\w\.\-]*@[a-z0-9\-]+(\.[a-z]{2,5}){1,2}$', email):
             # 不是有效合法的邮箱
             return render(request, 'register.html', {'errmsg': '邮箱格式不正确!'})
@@ -131,19 +131,19 @@ class RegisterView(View):
         return render(request, 'register.html')
 
     def post(self, request):
-        # 进行注册处理
+
         # 进行注册处理
         # 浏览器发过来数据就进行接收
         username = request.POST.get('user_name')
         password = request.POST.get('pwd')
         email = request.POST.get('email')
-        cpwd = request.POST.get('cpwd')
+        cpwd = request.POST.get('cpwd')  # 确认密码
         allow = request.POST.get('allow')
 
         # 进行数据校验  # 可迭代的东西
         # 校验用户名是否重复
         try:
-            user = User.objects.get(username=username)  # get会查到一条进一条查不到会
+            user = User.objects.get(username=username)  # get会查到一条,一条查不到会
         except User.DoesNotExist:
             # 抛异常用户名不存在
             user = None
@@ -221,7 +221,7 @@ class ActiveView(View):
             # 更改激活标记
             user.is_active = 1
             user.save()
-            # 返回一个应该,跳转登录页面:使用反向解析
+            # 返回一个应答,跳转登录页面:使用反向解析
             return redirect(reverse('user:login'))
         except SignatureExpired as e:
             # 异常 激活链接已过期
@@ -263,8 +263,8 @@ class LoginView(View):
                 # 　记录用户登录状态
                 login(request, user)
                 '''下面是django.contrib.auth.views.login所做的事情：
-如果通过 GET调用，它显示一个POST给相同URL的登录表单。后面有更多这方面的信息。
-如果通过POST调用并带有用户提交的凭证，它会尝试登入该用户。如果登入成功，该视图重定向到next中指定的URL。如果next没有提供，它重定向到settings.LOGIN_REDIRECT_URL（默认为/accounts/profile/）。如果登入不成功，则重新显示登录表单。'''
+                如果通过 GET调用，它显示一个POST给相同URL的登录表单。后面有更多这方面的信息。
+                如果通过POST调用并带有用户提交的凭证，它会尝试登入该用户。如果登入成功，该视图重定向到next中指定的URL。如果next没有提供，它重定向到settings.LOGIN_REDIRECT_URL（默认为/accounts/profile/）。如果登入不成功，则重新显示登录表单。'''
                 # 获取登录后所要跳转的地址,如果next返回值,get就会返回,如果获取不到(None),返回默认的值:默认首页
                 next_url = request.GET.get('next', reverse('goods:index'))
                 response = redirect(next_url)
@@ -302,46 +302,6 @@ class LogoutView(View):
         # 这是为了防止另外一个人使用相同的Web浏览器登入并访问前一个用户的会话数据。
         # 如果你想在用户登出之后>可以立即访问放入会话中的数据，请在调用django.contrib.auth.logout()之后放入。
         return redirect(reverse('goods:index'))
-
-
-'''
-(dj182) huxf@deepin:~/Dj18/dailyfresh$ celery -A celery_tasks.tasks worker -l info
- 
- -------------- celery@deepin v4.1.0 (latentcall)
----- **** ----- 
---- * ***  * -- Linux-4.15.0-29deepin-generic-x86_64-with-debian-9.0 2019-11-09 12:39:03
--- * - **** --- 
-- ** ---------- [config]
-- ** ---------- .> app:         celery_tasks.tasks:0x7fc3559c2c18
-- ** ---------- .> transport:   redis://10.10.21.29:6379/8
-- ** ---------- .> results:     disabled://
-- *** --- * --- .> concurrency: 4 (prefork)
--- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
---- ***** ----- 
- -------------- [queues]
-                .> celery           exchange=celery(direct) key=celery
-                
-
-[tasks]
-  . celery_tasks.tasks.send_register_active_email
-
-[2019-11-09 12:39:03,973: INFO/MainProcess] Connected to redis://10.10.21.29:6379/8
-[2019-11-09 12:39:03,980: INFO/MainProcess] mingle: searching for neighbors
-[2019-11-09 12:39:04,998: INFO/MainProcess] mingle: all alone
-/home/huxf/.pyenv/versions/3.5.3/envs/dj182/lib/python3.5/site-packages/celery/fixups/django.py:202: UserWarning: Using settings.DEBUG leads to a memory leak, never use this setting in production environments!
-  warnings.warn('Using settings.DEBUG leads to a memory leak, never '
-
-[2019-11-09 12:39:05,007: WARNING/MainProcess] /home/huxf/.pyenv/versions/3.5.3/envs/dj182/lib/python3.5/site-packages/celery/fixups/django.py:202: UserWarning: Using settings.DEBUG leads to a memory leak, never use this setting in production environments!
-  warnings.warn('Using settings.DEBUG leads to a memory leak, never '
-
-......注册....
-
-[2019-11-08 22:20:45,919: INFO/MainProcess] celery@deepin ready.
-[2019-11-08 22:21:24,116: INFO/MainProcess] Received task: celery_tasks.tasks.send_register_active_email[a2976dab-9b17-466b-8d85-5c8a413282d2]  
-[2019-11-08 22:21:31,325: INFO/PoolWorker-1] Task celery_tasks.tasks.send_register_active_email[a2976dab-9b17-466b-8d85-5c8a413282d2] succeeded in 7.2070167059991945s: None
-
-
-'''
 
 
 # 以下三个视图类继承自LoginRequireMixin,封装了需要登录才能访问的功能先继承LOGINRequiredMixin ,后继承view
@@ -415,7 +375,6 @@ class UserOrderView(LoginRequiredMixin, View):
             # 动态给order增加属性,保存订单商品信息,订单状态
             order.status_name = OrderInfo.ORDER_STATUS[order.order_status]
             order.order_skus = order_skus
-
 
         # 分页
         paginator = Paginator(orders, 2)

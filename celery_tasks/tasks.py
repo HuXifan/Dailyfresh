@@ -17,10 +17,7 @@ from goods.models import GoodsType, IndexGoodsBanner, IndexPromotionBanner, Inde
 
 # 创建一个Celery的实例对象  ,broker 中间人任务队列
 app = Celery('celery_tasks.tasks', broker='redis://10.10.21.29:6379/8')  # 使用redis指定8号数据库
-
-
 # app = Celery('celery_tasks.tasks', broker='redis://0.0.0.0:6379/8')  # 使用redis指定8号数据库
-
 
 # 定义任务函数,使用对象中的task方法进行装饰
 @app.task
