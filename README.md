@@ -9,6 +9,19 @@ __注:此项目纯属个人学习项目__
 ## 技术栈
 python + django + mysql + redis + celery + FastDFS(分布式图片服务器) + nginx
 
+## 项目架构
+- 前端
+    - 用户相关
+    - 商品相关
+    - 购物车相关
+    - 订单相关
+    - 后台管理
+- 后端
+    - 用户模块
+    - 商品模块
+    - 购物车模块
+    - 订单模块
+    - 后台管理模块
 
 ## 目标功能:
 - [x] 功能模块
@@ -33,8 +46,6 @@ python + django + mysql + redis + celery + FastDFS(分布式图片服务器) + n
         - [x] 确认订单页面
         - [x] 订单创建
         - [x] 请求支付(支付宝)
-        - [x] 查询支付结果
-        - [x] 评论
 
 
 - 项目启动：  
@@ -85,42 +96,45 @@ python + django + mysql + redis + celery + FastDFS(分布式图片服务器) + n
     sudo vim /etc/mysql/mysql.conf.d/mysql.cnf
     transaction-isolation = READ-COMMITTED (读已提交)
     ```
-## 项目包介绍
+## 项目所用包
 ```
-amqp==2.3.2
-asn1crypto==0.24.0
-billiard==3.5.0.4
-celery==4.2.1
-certifi==2018.11.29
-cffi==1.11.5
+amqp==2.5.1
+billiard==3.5.0.2
+celery==4.1.0
+certifi==2019.9.11
+cffi==1.13.2
 chardet==3.0.4
-configparser==3.5.0
-cryptography==2.4.1
+cryptography==2.8
 Django==1.8.2
 django-haystack==2.8.1
-django-redis==4.10.0
-django-redis-sessions==0.5.6
+django-redis==4.4.4
 django-tinymce==2.6.0
 fdfs-client-py==1.2.6
-idna==2.7
-itsdangerous==1.1.0   # 身份信息加密
-jieba==0.39           # jieba分词-分解词汇方便搜索   
-kombu==4.2.1
-mutagen==1.41.1
-Pillow==5.3.0
+idna==2.8
+importlib-metadata==0.23
+itsdangerous==1.1.0
+jieba==0.39
+kombu==4.1.0
+more-itertools==7.2.0
+mutagen==1.42.0
+Pillow==6.2.1
 pycparser==2.19
-pycryptodomex==3.7.2
-PyMySQL==0.9.2
-python-alipay-sdk==1.8.0
-pytz==2018.7
+pycryptodomex==3.9.4
+PyMySQL==0.9.3
+pyOpenSSL==19.1.0
+python-alipay-sdk==2.0.0
+pytz==2019.3
 redis==2.10.6
-requests==2.20.1
-rerequests==1.0.0b0
-six==1.11.0
-urllib3==1.24.1
-uWSGI==2.0.17.1
-vine==1.1.4
+requests==2.22.0
+six==1.13.0
+sqlparse==0.3.0
+style==1.1.0
+urllib3==1.25.7
+uWSGI==2.0.18
+vine==1.3.0
+web.py==0.40.dev1
 Whoosh==2.7.4
+zipp==0.6.0
 ```
 
 ## 开发方法
@@ -132,10 +146,10 @@ AUTH_USER_MODEL = "users.User"
 - Django发送邮件
    - Django网站 ---> smtp服务器 ---> 目的邮箱
 - celery:异步任务队列
+[]()
     - 任务的发出者、中间人、任务的处理者可以在同一台电脑上启动，也可以不在同一台电脑上。处理者也需要任务的代码，任务处理者所在电脑必须有网,即能和外机通信.
-    `pip install celery 
-    `
-     - 项目代码（任务发出者）—发出任务—>任务队列（中间人broker）redis<—监听任务队列—任务处理者worker
+    `pip install celery     `
+    - 项目代码（任务发出者）—发出任务—>任务队列（中间人broker）redis<—监听任务队列—任务处理者worker
 - 用户激活
     - 使用itsdangerous加密用户身份信息
     - ```
@@ -144,7 +158,7 @@ AUTH_USER_MODEL = "users.User"
         info = {'confirm':user.id}
         token = serializer.dumps(info)
         token = token.decode()
-        ```  
+      ```  
     - 解密用户身份信息
         ```
         serializer = Serializer(settings.SECRET_KEY, 3600)
@@ -201,10 +215,10 @@ AUTH_USER_MODEL = "users.User"
 - FastDFS分布式文件系统
     - 配置服务  `tracker_server = ip地址：22122`
     - 启动tracker,storage, nginx服务
-        ```python
-            sudo service fdfs trackerd start
-            sudo service fsfs storaged start
-            sudo /usr/local/nginx/sbin/nginx
+        ```
+        sudo service fdfs trackerd start
+        sudo service fsfs storaged start
+        sudo /usr/local/nginx/sbin/nginx
         ```
     - 执行测试命令 `fdfs_upload_file /etc/fdfs/client.conf`
     
@@ -640,13 +654,6 @@ redis版本需要2.10.6 否则会报错,因为使用django的版本(1.8.2)过低
 ├── requirement.txt
 ├── static
 ├── static_root
-├── temp-6864.rdb
-├── temp-7318.rdb
-├── temp-9573.rdb
-├── templates
-├── temp-6864.rdb
-├── temp-7318.rdb
-├── temp-9573.rdb
 ├── templates
 │   ├── base_detail_list.html
 │   ├── base.html
