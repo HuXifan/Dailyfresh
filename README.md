@@ -61,6 +61,7 @@ python + django + mysql + redis + celery + FastDFS(分布式图片服务器) + n
     - **注意: uwsgi开启需要修改[配置文件](./dailyfresh/settings.py)中的DEBUG和ALLOWED_HOSTS**
         ```    
         启动: uwsgi --ini 配置文件路径 / uwsgi --ini uwsgi.ini
+        'uwsgi --ini uwsgi.ini'
         停止: uwsgi --stop uwsgi.pid路径 / uwsgi --stop uwsgi.pid
         ```
 - celery分布式任务队列启动  
@@ -72,7 +73,7 @@ python + django + mysql + redis + celery + FastDFS(分布式图片服务器) + n
         sudo redis-server /etc/redis.conf
         ```
 - FastDFS服务启动
-        ```    
+        ```
         Trackerd服务
         sudo /usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf start
     
@@ -528,7 +529,10 @@ redis版本需要2.10.6 否则会报错,因为使用django的版本(1.8.2)过低
 ## 总结
 
 ## 项目展示
-
+![首页](https://github.com/HuXifan/Dailyfresh/raw/master/static/images/README_iamges/index.png)
+![购物车](https://github.com/HuXifan/Dailyfresh/raw/master/static/images/README_iamges/cart.png)
+![用户中心](https://github.com/HuXifan/Dailyfresh/raw/master/static/images/README_iamges/user_center.png) 
+![订单](https://github.com/HuXifan/Dailyfresh/raw/master/static/images/README_iamges/order.png)
 ## 项目布局
 ```
   ├── apps
